@@ -80,7 +80,7 @@ type SupplierResultsProps = {
   /** Clears every questionnaire-backed drawer facet in one shot. */
   onClearMappedAnswers: () => void;
   /** Reports how many suppliers sit on the engage rail, for the stage bar. */
-  /** Engage tray's Refine control: reopens the define pane. */
+  /** Engage tray's Smart Filters control: reopens the define pane. */
   onRefine: () => void;
   /** True once the run wraps up or the buyer clicks Done. */
   /** Increments on Reset so the rail can drop auto-queued chips. */
@@ -738,9 +738,9 @@ export function SupplierResults({
           </div>
         ) : (
           <div className="engage-tray-bar">
-            <button type="button" className="engage-tray-refine" aria-label="Refine" onClick={onRefine}>
+            <button type="button" className="engage-tray-refine" aria-label="Smart Filters" onClick={onRefine}>
               <l-icon name="sparkles" fill aria-hidden="true" />
-              <span className="engage-tray-refine-label">Refine</span>
+              <span className="engage-tray-refine-label">Smart Filters</span>
             </button>
             {/* Marks and their count share one cell, so the count sits against the
                 logos instead of being pushed out by the button column below. */}
@@ -775,7 +775,9 @@ export function SupplierResults({
               disabled={railSuppliers.length === 0}
               onClick={shortlistRailSuppliers}
             >
-              <span className="engage-tray-shortlist-verb">Add to </span>Shortlist
+              <span>
+                <span className="engage-tray-shortlist-verb">Add to </span>Shortlist
+              </span>
             </button>
             <button
               kind="primary"
