@@ -433,7 +433,7 @@ export function AskBlock({
         <div className="ask-submit">
           <small className="txt-darkblue-50">Select all that apply</small>
           <button kind="primary" type="button" disabled={picked.length === 0} onClick={onSubmit}>
-            Submit
+            Next
           </button>
         </div>
       )}
