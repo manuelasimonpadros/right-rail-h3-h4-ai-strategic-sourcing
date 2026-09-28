@@ -34,6 +34,10 @@ type SelectSuppliersRailProps = {
       floating "Open Smart Filters" button) — offered from the empty RFI
       card so there's a path back in without hunting for that button. */
   onAnswerQuestions?: () => void;
+  /** Set when the rail is shown as the phone/tablet sheet: adds a Close
+      control, and spells out the "can't be contacted" note that the desktop
+      rail leaves to a hover tooltip. */
+  onClose?: () => void;
 };
 
 /**
@@ -52,10 +56,12 @@ export function SelectSuppliersRail({
   addedCount,
   onClearRecommended,
   onAnswerQuestions,
+  onClose,
 }: SelectSuppliersRailProps) {
   const [rfiCollapsed, setRfiCollapsed] = useState(false);
   /** Saved suppliers a request can actually go to — the rest are shortlist only. */
   const contactable = contactableOnly(suppliers);
+  const blockedCount = suppliers.length - contactable.length;
 
   /** One supplier chip; greyed with the reason on hover if it can't be contacted. */
   const chip = (supplier: Supplier) => {
@@ -106,7 +112,7 @@ export function SelectSuppliersRail({
           <l-icon name="paper-plane" />
         </span>
         <div>
-          <h4 className="mar-0">Shortlist &amp; contact suppliers</h4>
+          <h4 className="mar-0">Shortlist &amp; Contact Suppliers</h4>
           <p className="mar-0">
             {suppliers.length === 0
               ? "Add suppliers to your list"
@@ -117,6 +123,16 @@ export function SelectSuppliersRail({
                 )}
           </p>
         </div>
+        {onClose && (
+          <button
+            type="button"
+            className="rail-close"
+            aria-label="Close Shortlist & Contact Suppliers"
+            onClick={onClose}
+          >
+            <l-icon name="xmark" aria-hidden="true" />
+          </button>
+        )}
       </div>
 
       {suppliers.length === 0 ? (
@@ -161,6 +177,14 @@ export function SelectSuppliersRail({
           )}
           {suppliers.slice(addedCount).map(chip)}
         </ul>
+      )}
+
+      {onClose && blockedCount > 0 && (
+        <p className="rail-blocked-note mar-0">
+          {blockedCount === 1
+            ? "1 supplier can't be contacted through Thomas, but can be added to your shortlist."
+            : `${blockedCount} suppliers can't be contacted through Thomas, but can be added to your shortlist.`}
+        </p>
       )}
 
       {/* Draft-status module: white/grey with no answers, blue once drafted.
@@ -222,13 +246,14 @@ export function SelectSuppliersRail({
         <button
           type="button"
           kind="primary"
+          scale={onClose ? "large" : undefined}
           disabled={contactable.length === 0}
           onClick={onSendRfi}
         >
           Contact {contactable.length} Supplier{contactable.length === 1 ? "" : "s"}
         </button>
         <button type="button" className="rail-sub" onClick={onAddToShortlist}>
-          + Add to shortlist
+          + Add to Shortlist
         </button>
       </div>
     </aside>

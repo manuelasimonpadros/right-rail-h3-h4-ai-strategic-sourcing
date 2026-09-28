@@ -2642,10 +2642,9 @@ body.is-resizing-panes {
   background: var(--l-color-blue-10, #eaf2fd);
 }
 
-/* Fixed bottom tray that stands in for the engage column on tablet/phone. */
-/* Two rows: the picks and their count on top, the actions beneath — Refine
-   left, Shortlist and Send RFI right. As one flex row the count was crushed
-   to a few characters wide and wrapped to three lines. */
+/* Bottom tray that stands in for the engage column on tablet/phone. A handle
+   sits on top; the bar beneath is the collapsed state, and opening it swaps
+   the bar for the full shortlist as a sheet. */
 .engage-tray {
   display: none;
   position: fixed;
@@ -2653,16 +2652,148 @@ body.is-resizing-panes {
   left: 0;
   right: 0;
   z-index: 20;
-  grid-template-columns: auto 1fr auto auto;
-  grid-template-areas:
-    "picks  picks picks     picks"
-    "refine .     shortlist rfi";
-  align-items: center;
-  gap: var(--l-space-2) var(--l-space-3);
-  padding: 10px var(--l-space-4);
   background: #fff;
   border-top: 1px solid var(--l-color-border);
-  box-shadow: 0 -4px 16px rgb(16 38 58 / 0.06);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 16px rgb(9 44 71 / 0.06);
+}
+
+.engage-tray-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.engage-tray-handle span {
+  width: 40px;
+  height: 4px;
+  border-radius: var(--l-radius-full);
+  background: var(--l-color-darkblue-25);
+}
+
+.engage-tray-handle:focus-visible {
+  outline: 2px solid var(--l-color-blue-100);
+  outline-offset: -2px;
+  border-radius: 16px 16px 0 0;
+}
+
+/* One row on a tablet — the picks and their count on the left, the actions
+   on the right. Refine only appears on a phone, where the questionnaire has
+   no pane of its own. */
+.engage-tray-bar {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  grid-template-areas: "picks shortlist rfi";
+  align-items: center;
+  gap: var(--l-space-2) var(--l-space-3);
+  padding: 0 var(--l-space-4) calc(10px + env(safe-area-inset-bottom));
+}
+
+/* Open: a sheet over the page, dimmed behind. */
+.engage-tray-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  padding: 0;
+  border: 0;
+  background: rgb(9 44 71 / 0.35);
+  cursor: default;
+}
+
+/* As tall as its content, up to the screen less a strip of the page (and the
+   status bar) so the scrim still reads as a sheet, not a new screen. */
+.engage-tray-sheet {
+  max-height: calc(100vh - 64px);
+  max-height: calc(100dvh - 64px - env(safe-area-inset-top));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* The sheet's height is capped, so the whole rail scrolls; its blocks keep
+   their natural size rather than the chip list soaking up "leftover" height
+   (there is none here) and collapsing to a peek. */
+.engage-tray-sheet .select-rail > * {
+  flex-shrink: 0;
+}
+
+.engage-tray-sheet .select-rail-list {
+  flex: 0 0 auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+.engage-tray-sheet .select-rail {
+  display: flex;
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  min-height: 0;
+  border-left: 0;
+  padding-bottom: 0;
+}
+
+/* The list scrolls; Contact and Add to Shortlist stay pinned to the sheet's
+   foot so they are never below the fold. */
+.engage-tray-sheet .select-rail-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  margin-top: var(--l-space-2);
+  padding: var(--l-space-3) 0 calc(var(--l-space-2) + env(safe-area-inset-bottom));
+  background: #fff;
+  border-top: 1px solid var(--l-color-border);
+}
+
+/* Close control at the sheet header's end, sized as a touch target. */
+.engage-tray-sheet .rail-header {
+  align-items: flex-start;
+  touch-action: none;
+}
+
+.rail-close {
+  margin-left: auto;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  margin-top: -8px;
+  margin-right: -10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: none;
+  color: var(--l-color-darkblue-75);
+  font-size: var(--l-font-size-small);
+  cursor: pointer;
+}
+
+.rail-close:focus-visible {
+  outline: 2px solid var(--l-color-blue-100);
+  border-radius: 8px;
+}
+
+/* Visible where the desktop rail uses a tooltip, which touch can't reach. */
+.select-rail .rail-blocked-note {
+  margin-bottom: var(--l-space-2);
+  padding: var(--l-space-2) var(--l-space-3);
+  border-radius: 8px;
+  background: var(--l-color-blue-10);
+  font-size: var(--l-font-size-smallest);
+  line-height: 1.45;
+  color: var(--l-color-darkblue-75);
+}
+
+.engage-tray-sheet .select-rail-actions .rail-sub {
+  min-height: 36px;
 }
 
 .engage-tray-refine {
@@ -2714,6 +2845,13 @@ body.is-resizing-panes {
   margin-left: -8px;
 }
 
+.engage-tray-avatars .engage-tray-more {
+  background: var(--l-color-darkblue-10);
+  color: var(--l-color-darkblue-75);
+  font-size: 11px;
+  font-weight: var(--l-font-weight-semibold);
+}
+
 .engage-tray-note {
   min-width: 0;
   font-size: var(--l-font-size-smallest);
@@ -2724,6 +2862,7 @@ body.is-resizing-panes {
 /* Both actions match Refine's height so the row reads as one set. */
 .engage-tray-shortlist {
   grid-area: shortlist;
+  white-space: nowrap;
 }
 
 .engage-tray :is(.engage-tray-shortlist, button[kind="primary"]) {
@@ -2732,6 +2871,16 @@ body.is-resizing-panes {
 
 .engage-tray button[kind="primary"] {
   grid-area: rfi;
+  white-space: nowrap;
+}
+
+/* The narrowest phones can't fit the label beside both actions; the sparkle
+   alone (still named for screen readers) keeps the row on one line. */
+@media (max-width: 359px) {
+  .engage-tray-refine-label,
+  .engage-tray-shortlist-verb {
+    display: none;
+  }
 }
 
 /* Left rail shell: no outer card — the header floats above the transcript. */
@@ -4250,16 +4399,17 @@ l-icon[name="envelope"]::before {
   }
 
   .engage-tray {
-    display: grid;
+    display: block;
   }
 
-  /* Room at the foot of both panes so the tray never covers their controls. */
+  /* Room at the foot of both panes so the tray never covers their controls;
+     the tray reports its real height (it differs between tablet and phone). */
   .app-main {
-    padding-bottom: 58px;
+    padding-bottom: var(--tray-height, 58px);
   }
 
   .agent-tab {
-    bottom: calc(var(--l-space-4) + 58px);
+    bottom: calc(var(--l-space-4) + var(--tray-height, 58px));
   }
 }
 
@@ -4274,8 +4424,30 @@ l-icon[name="envelope"]::before {
     height: 56px;
   }
 
+  /* Slides up out of view while the results scroll down (see the scroll
+     listener in sourcing-experience.tsx, which sets the negative margin). */
+  .site-nav {
+    transition: margin-top 0.25s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-nav {
+      transition: none;
+    }
+  }
+
   .engage-tray-refine {
     display: inline-flex;
+  }
+
+  /* Two rows on a phone: the picks and their count on top, the actions
+     beneath — Refine left, Shortlist and Send RFI right. As one row the
+     count was crushed to a few characters wide. */
+  .engage-tray-bar {
+    grid-template-columns: auto 1fr auto auto;
+    grid-template-areas:
+      "picks  picks picks     picks"
+      "refine .     shortlist rfi";
   }
 
   /* One column at a time on a phone — nothing to drag between. */
@@ -4299,18 +4471,6 @@ l-icon[name="envelope"]::before {
     border-right: none;
   }
 
-  .app-main[data-mobile-tab="engage"] .results-center {
-    display: none;
-  }
-
-  .app-main[data-mobile-tab="engage"] .select-rail {
-    display: flex;
-    width: 100%;
-    min-width: 0;
-    max-width: none;
-    border-left: none;
-  }
-
   /* The tabs own pane switching; the collapse control and reopen tab go. */
   .answer-actions .answer-tool,
   .agent-tab {
@@ -4328,6 +4488,57 @@ l-icon[name="envelope"]::before {
 
   .results-header h3 {
     font-size: 17px;
+  }
+
+  /* Title and All Filters share one row, centred on each other; the count
+     line no longer pushes the button off the title's midline. */
+  .results-headline > p {
+    margin-bottom: 0;
+  }
+
+  .results-meta {
+    flex-wrap: nowrap;
+    padding-bottom: var(--l-space-3);
+  }
+
+  .all-filters {
+    flex-shrink: 0;
+  }
+
+  /* Requirement chips sit on their own row under a rule, with a wider tap
+     target on the X. */
+  .results-header .answer-pill-row {
+    margin-top: 0;
+    padding: var(--l-space-2) 0 var(--l-space-3);
+    border-top: 1px solid var(--l-color-border);
+  }
+
+  .results-header .answer-pill-label {
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+
+  .results-header .answer-pill {
+    min-height: 32px;
+    gap: 6px;
+    padding: 0 0 0 10px;
+    font-size: var(--l-font-size-smallest);
+  }
+
+  .results-header .answer-pill-remove {
+    align-self: stretch;
+    padding: 0 10px 0 6px;
+    font-size: var(--l-font-size-smallest);
+    position: relative;
+  }
+
+  .results-header .answer-pill-remove::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    border-left: 1px solid var(--l-color-blue-25);
   }
 
   .results-list {
@@ -5299,4 +5510,19 @@ l-icon[name="envelope"]::before {
   font-size: 15px;
   font-weight: var(--l-font-weight-bold);
   letter-spacing: 0.02em;
+}
+
+/* Nobody drags a file onto a phone: the upload zone says "Tap" there. */
+.drop-copy-touch {
+  display: none;
+}
+
+@media (max-width: 699px), (pointer: coarse) {
+  .drop-copy-pointer {
+    display: none;
+  }
+
+  .drop-copy-touch {
+    display: inline;
+  }
 }
