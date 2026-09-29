@@ -56,6 +56,7 @@ export function SelectSuppliersRail({
   const [rfiCollapsed, setRfiCollapsed] = useState(false);
   /** Saved suppliers a request can actually go to — the rest are shortlist only. */
   const contactable = contactableOnly(suppliers);
+  const blockedCount = suppliers.length - contactable.length;
 
   /** One supplier chip; greyed with the reason on hover if it can't be contacted. */
   const chip = (supplier: Supplier) => {
@@ -84,6 +85,11 @@ export function SelectSuppliersRail({
             {supplier.name}
           </span>
         </button>
+        {blocked && (
+          <span className="rail-chip-flag" aria-hidden="true">
+            <l-icon name="ban" />
+          </span>
+        )}
         <button
           type="button"
           className="rail-chip-remove"
@@ -217,6 +223,19 @@ export function SelectSuppliersRail({
           )}
         </div>
       </div>
+
+      {blockedCount > 0 && (
+        <p className="rail-blocked-note insight-note mar-0" role="status">
+          <l-icon name="circle-info" aria-hidden="true" />
+          <span>
+            {contactable.length === 0
+              ? "None of your selected suppliers can be contacted through Thomas. Add them to your shortlist, or choose others."
+              : blockedCount === 1
+                ? "1 supplier can't be contacted through Thomas, but can be added to your shortlist."
+                : `${blockedCount} suppliers can't be contacted through Thomas, but can be added to your shortlist.`}
+          </span>
+        </p>
+      )}
 
       <div className="select-rail-actions">
         <button

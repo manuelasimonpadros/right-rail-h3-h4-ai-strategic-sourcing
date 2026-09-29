@@ -2295,6 +2295,25 @@ body.is-resizing-panes {
   opacity: 0.55;
 }
 
+/* Not dimmed with the name, so the marker stays readable on the grey chip. */
+.rail-chip-flag {
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--l-color-darkblue-75);
+  font-size: var(--l-font-size-smallest);
+}
+
+/* Always visible: the reason for the button's lower count can't sit behind
+   a hover, which touch can't reach and most buyers never try. */
+.select-rail .rail-blocked-note {
+  align-items: center;
+  margin-bottom: var(--l-space-2);
+  padding: var(--l-space-2) var(--l-space-3);
+  border-radius: var(--l-radius-1);
+  background: var(--l-color-blue-10);
+}
+
 .rail-entry-uncontactable::after {
   content: attr(data-tip);
   position: absolute;
