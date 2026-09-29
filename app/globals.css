@@ -2284,9 +2284,8 @@ body.is-resizing-panes {
 }
 
 /* Saved, but Thomas can't route a request to them — muted so the chip reads
-   as shortlist-only, with the reason on hover. */
+   as shortlist-only, with the reason on hover (.rail-tip). */
 .select-rail-list li.rail-entry-uncontactable {
-  position: relative;
   border-style: dashed;
   background: var(--l-color-darkblue-5, #f5f7f8);
 }
@@ -2308,18 +2307,28 @@ body.is-resizing-panes {
    a hover, which touch can't reach and most buyers never try. */
 .select-rail .rail-blocked-note {
   align-items: center;
-  margin-bottom: var(--l-space-2);
+  margin-top: var(--l-space-2);
+  margin-bottom: 0;
   padding: var(--l-space-2) var(--l-space-3);
   border-radius: var(--l-radius-1);
   background: var(--l-color-blue-10);
+  /* Same size and leading as the RFI card's own copy above it. */
+  font-size: 12px;
+  line-height: 1.5;
 }
 
-.rail-entry-uncontactable::after {
-  content: attr(data-tip);
-  position: absolute;
-  bottom: calc(100% + 6px);
-  left: 0;
-  z-index: 5;
+.select-rail .rail-blocked-note l-icon {
+  font-size: 14px;
+}
+
+/* Tighter than the default gap so the note reads as belonging to the CTA. */
+.select-rail .rail-blocked-note + .select-rail-actions {
+  margin-top: var(--l-space-2);
+}
+
+.rail-tip {
+  position: fixed;
+  z-index: 60;
   width: max-content;
   max-width: 240px;
   padding: 8px 10px;
@@ -2329,16 +2338,8 @@ body.is-resizing-panes {
   font-size: 11px;
   font-weight: var(--l-font-weight-semibold);
   line-height: 1.35;
-  white-space: normal;
   text-align: left;
-  opacity: 0;
   pointer-events: none;
-  transition: opacity 0.12s ease;
-}
-
-.rail-entry-uncontactable:hover::after,
-.rail-entry-uncontactable:focus-within::after {
-  opacity: 1;
 }
 
 .rail-chip-open {

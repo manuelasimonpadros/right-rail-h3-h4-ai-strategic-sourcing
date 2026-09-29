@@ -57,6 +57,19 @@ export function SelectSuppliersRail({
   /** Saved suppliers a request can actually go to — the rest are shortlist only. */
   const contactable = contactableOnly(suppliers);
   const blockedCount = suppliers.length - contactable.length;
+  /** The uncontactable-chip tooltip, drawn fixed to the viewport: the chip list
+      scrolls, so a tooltip inside it would be clipped at the list's edge. */
+  const [tip, setTip] = useState<{ left: number; top: number; above: boolean } | null>(null);
+  const showTip = (el: HTMLElement) => {
+    const rect = el.getBoundingClientRect();
+    const above = rect.top > 80;
+    setTip({
+      left: Math.max(8, Math.min(rect.left, window.innerWidth - 240 - 8)),
+      top: above ? rect.top - 6 : rect.bottom + 6,
+      above,
+    });
+  };
+  const hideTip = () => setTip(null);
 
   /** One supplier chip; greyed with the reason on hover if it can't be contacted. */
   const chip = (supplier: Supplier) => {
@@ -65,12 +78,15 @@ export function SelectSuppliersRail({
       <li
         key={supplier.id}
         className={blocked ? "rail-entry-uncontactable" : undefined}
-        data-tip={blocked ? UNCONTACTABLE_NOTE : undefined}
+        onMouseEnter={blocked ? (event) => showTip(event.currentTarget) : undefined}
+        onMouseLeave={blocked ? hideTip : undefined}
+        onFocus={blocked ? (event) => showTip(event.currentTarget) : undefined}
+        onBlur={blocked ? hideTip : undefined}
       >
         <button
           type="button"
           className="rail-chip-open"
-          title={blocked ? UNCONTACTABLE_NOTE : `Show ${supplier.name} in results`}
+          title={blocked ? undefined : `Show ${supplier.name} in results`}
           aria-label={
             blocked
               ? `${supplier.name} — ${UNCONTACTABLE_NOTE}`
@@ -141,7 +157,7 @@ export function SelectSuppliersRail({
           <p className="mar-0">Add suppliers to contact or shortlist</p>
         </div>
       ) : (
-        <ul className="select-rail-list">
+        <ul className="select-rail-list" onScroll={hideTip}>
           {/* Headings are full-width rows in the same list, so both groups
               share one scrolling column of chips. The buyer's own picks lead. */}
           {addedCount > 0 && (
@@ -250,6 +266,20 @@ export function SelectSuppliersRail({
           + Add to shortlist
         </button>
       </div>
+
+      {tip && (
+        <div
+          className="rail-tip"
+          aria-hidden="true"
+          style={{
+            left: tip.left,
+            top: tip.top,
+            transform: tip.above ? "translateY(-100%)" : undefined,
+          }}
+        >
+          {UNCONTACTABLE_NOTE}
+        </div>
+      )}
     </aside>
   );
 }
