@@ -3336,20 +3336,31 @@ body.is-resizing-panes {
   gap: var(--l-space-2);
 }
 
-/* The opt-out: an icon-only close at the footer's far left, labelled by its
-   tooltip and aria-label. The "Open agent" chip returns to the bottom-left, so
-   the way back appears where the way out was. */
+/* The opt-out: a small chevron handle on the panel's right edge, labelled by
+   its tooltip and aria-label. It costs no header or footer space, and mirrors
+   the "Open agent" chip that returns once the panel is closed. */
+.agent-edge {
+  position: relative;
+  z-index: 4;
+  flex: 0 0 0;
+  width: 0;
+  align-self: center;
+}
+
 .agent-exit {
-  flex-shrink: 0;
-  display: inline-flex;
+  position: absolute;
+  top: -22px;
+  left: -10px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 44px;
   padding: 0;
-  background: none;
-  border: none;
-  border-radius: var(--l-radius-1);
+  background: #fff;
+  border: 1px solid var(--l-color-border);
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgb(9 44 71 / 0.12);
   color: var(--l-color-blue-100);
   font-size: 14px;
   cursor: pointer;
@@ -3357,11 +3368,12 @@ body.is-resizing-panes {
 
 .agent-exit:hover {
   background: var(--l-color-blue-10);
+  border-color: var(--l-color-blue-25);
 }
 
 /* Same breakpoint as the reopen tab: the phone layout owns pane switching. */
 @media (max-width: 699px) {
-  .agent-exit {
+  .agent-edge {
     display: none;
   }
 }

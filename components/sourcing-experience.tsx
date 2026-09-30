@@ -788,15 +788,6 @@ export function SourcingExperience() {
                     undo, and the all-questions accordion. */}
                 <div className="answer-actions">
                   <button
-                    className="agent-exit"
-                    type="button"
-                    title={`Exit agent — ${OPT_OUT_HINT}`}
-                    aria-label="Exit agent"
-                    onClick={closeChat}
-                  >
-                    <l-icon name="xmark" aria-hidden="true" />
-                  </button>
-                  <button
                     className="define-back"
                     type="button"
                     disabled={!canGoBack || browseAsks}
@@ -838,6 +829,22 @@ export function SourcingExperience() {
         </section>
 
         <PaneResizer variable="--define-width" edge="left" label="Resize the define column" />
+
+        {/* Zero-width anchor on the divider, so the handle sits on the panel's
+            edge without taking any header or footer space. */}
+        {agentOpen && (
+          <div className="agent-edge">
+            <button
+              className="agent-exit"
+              type="button"
+              title={`Exit agent — ${OPT_OUT_HINT}`}
+              aria-label="Exit agent"
+              onClick={closeChat}
+            >
+              <l-icon name="angle-left" aria-hidden="true" />
+            </button>
+          </div>
+        )}
 
         {/* Center + right: supplier results and the engage rail */}
         <section className="pane" aria-label="Supplier results">
