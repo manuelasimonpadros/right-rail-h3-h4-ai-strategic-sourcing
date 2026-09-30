@@ -33,7 +33,6 @@ export function MailSlashIcon({ size = 16 }: { size?: number }) {
 export function MailCheckBadge({ size = 18 }: { size?: number }) {
   const id = useId();
   const body = `${id}-body`;
-  const dot = `${id}-dot`;
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false">
       <defs>
@@ -42,16 +41,12 @@ export function MailCheckBadge({ size = 18 }: { size?: number }) {
           <stop offset="0.55" stopColor="#2fb25f" />
           <stop offset="1" stopColor="#1a8a49" />
         </linearGradient>
-        <linearGradient id={dot} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#ffffff" />
-          <stop offset="1" stopColor="#dff5e6" />
-        </linearGradient>
       </defs>
-      <rect x="1.5" y="4" width="21" height="15" rx="2.6" fill={`url(#${body})`} stroke="#167a40" strokeWidth="1" />
+      <rect x="1.5" y="4" width="21" height="15" rx="2.6" fill={`url(#${body})`} />
       <path d="M1.5 6.4 12 13l10.5-6.6" fill="none" stroke="#ffffff" strokeOpacity="0.85" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
       <rect x="2" y="4.4" width="20" height="5" rx="2.2" fill="#ffffff" fillOpacity="0.14" />
-      <circle cx="18.2" cy="17.6" r="5.2" fill={`url(#${dot})`} stroke="#167a40" strokeWidth="1" />
-      <path d="m15.7 17.7 1.9 1.9 3.3-3.6" fill="none" stroke="#1a8a49" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="18.2" cy="17.6" r="5.2" fill="#167a40" />
+      <path d="m15.7 17.7 1.9 1.9 3.3-3.6" fill="none" stroke="#ffffff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
