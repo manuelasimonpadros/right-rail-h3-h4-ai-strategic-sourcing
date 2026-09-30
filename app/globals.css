@@ -3336,22 +3336,16 @@ body.is-resizing-panes {
   gap: var(--l-space-2);
 }
 
-/* The opt-out: an icon-only close, labelled by its tooltip and aria-label. It
-   shares the header's row with the title: beside
-   the title it forced "Smart filter your search" onto two lines, and the
-   footer has no room for a label at the pane's default width. */
+/* The opt-out: an icon-only close at the footer's far left, labelled by its
+   tooltip and aria-label. The "Open agent" chip returns to the bottom-left, so
+   the way back appears where the way out was. */
 .agent-exit {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  /* Tucked into the header's gap and the panel's right padding so the title
-     keeps its full width: "Smart filter your search" needs about 185px of
-     the 253px row, and the badge, gaps and this button share the rest. The
-     top margin centres it on the title's line. */
-  margin: -2px -5px 0 -8px;
+  width: 28px;
+  height: 28px;
   padding: 0;
   background: none;
   border: none;

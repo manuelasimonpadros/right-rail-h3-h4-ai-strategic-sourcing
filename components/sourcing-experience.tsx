@@ -643,15 +643,6 @@ export function SourcingExperience() {
                 <h4 className="mar-0">Smart filter your search</h4>
                 <p className="agent-searching mar-0">Find the perfect supplier</p>
               </div>
-              <button
-                className="agent-exit"
-                type="button"
-                title={`Exit agent — ${OPT_OUT_HINT}`}
-                aria-label="Exit agent"
-                onClick={closeChat}
-              >
-                <l-icon name="xmark" aria-hidden="true" />
-              </button>
             </div>
             <div className="transcript" data-browse={browseAsks || undefined}>
               {browseAsks
@@ -796,6 +787,15 @@ export function SourcingExperience() {
                 {/* Footer toolbar, per the reference: back, done,
                     undo, and the all-questions accordion. */}
                 <div className="answer-actions">
+                  <button
+                    className="agent-exit"
+                    type="button"
+                    title={`Exit agent — ${OPT_OUT_HINT}`}
+                    aria-label="Exit agent"
+                    onClick={closeChat}
+                  >
+                    <l-icon name="xmark" aria-hidden="true" />
+                  </button>
                   <button
                     className="define-back"
                     type="button"
