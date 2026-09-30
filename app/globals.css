@@ -3363,6 +3363,13 @@ body.is-resizing-panes {
   background: var(--l-color-blue-5, #f6f9ff);
 }
 
+/* Same breakpoint as the reopen tab: the phone layout owns pane switching. */
+@media (max-width: 699px) {
+  .agent-exit {
+    display: none;
+  }
+}
+
 /* Sized like the supplier-card CTAs ("Visit Website"), the app's default
    CTA geometry: 32px tall, 3px radius, 12.5px semibold. */
 .define-back,
@@ -4317,8 +4324,8 @@ l-icon[name="envelope"]::before {
     border-left: none;
   }
 
-  /* The tabs own pane switching; the exit control and reopen tab go. */
-  .agent-exit,
+  /* The tabs own pane switching; the collapse control and reopen tab go. */
+  .answer-actions .answer-tool,
   .agent-tab {
     display: none;
   }
