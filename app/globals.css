@@ -3343,7 +3343,7 @@ body.is-resizing-panes {
 .agent-exit-row {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: var(--l-space-1);
+  padding-top: var(--l-space-4);
 }
 
 .agent-exit {
