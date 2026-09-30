@@ -2782,17 +2782,6 @@ body.is-resizing-panes {
   border-radius: 8px;
 }
 
-/* Visible where the desktop rail uses a tooltip, which touch can't reach. */
-.select-rail .rail-blocked-note {
-  margin-bottom: var(--l-space-2);
-  padding: var(--l-space-2) var(--l-space-3);
-  border-radius: 8px;
-  background: var(--l-color-blue-10);
-  font-size: var(--l-font-size-smallest);
-  line-height: 1.45;
-  color: var(--l-color-darkblue-75);
-}
-
 .engage-tray-sheet .select-rail-actions .rail-sub {
   min-height: 36px;
 }

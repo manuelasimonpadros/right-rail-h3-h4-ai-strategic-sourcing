@@ -35,8 +35,7 @@ type SelectSuppliersRailProps = {
       card so there's a path back in without hunting for that button. */
   onAnswerQuestions?: () => void;
   /** Set when the rail is shown as the phone/tablet sheet: adds a Close
-      control, and spells out the "can't be contacted" note that the desktop
-      rail leaves to a hover tooltip. */
+      control. */
   onClose?: () => void;
 };
 
@@ -61,7 +60,6 @@ export function SelectSuppliersRail({
   const [rfiCollapsed, setRfiCollapsed] = useState(false);
   /** Saved suppliers a request can actually go to — the rest are shortlist only. */
   const contactable = contactableOnly(suppliers);
-  const blockedCount = suppliers.length - contactable.length;
 
   /** One supplier chip; greyed with the reason on hover if it can't be contacted. */
   const chip = (supplier: Supplier) => {
@@ -177,14 +175,6 @@ export function SelectSuppliersRail({
           )}
           {suppliers.slice(addedCount).map(chip)}
         </ul>
-      )}
-
-      {onClose && blockedCount > 0 && (
-        <p className="rail-blocked-note mar-0">
-          {blockedCount === 1
-            ? "1 supplier can't be contacted through Thomas, but can be added to your shortlist."
-            : `${blockedCount} suppliers can't be contacted through Thomas, but can be added to your shortlist.`}
-        </p>
       )}
 
       {/* Draft-status module: white/grey with no answers, blue once drafted.
