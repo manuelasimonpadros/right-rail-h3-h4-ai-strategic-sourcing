@@ -3193,7 +3193,7 @@ body.is-resizing-panes {
   border: none;
   border-radius: 9px;
   background: none;
-  text-align: center;
+  text-align: right;
   font-family: inherit;
   font-size: 13px;
   font-weight: 500;
