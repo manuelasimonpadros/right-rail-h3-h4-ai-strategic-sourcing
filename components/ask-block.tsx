@@ -455,8 +455,8 @@ export function AskBlock({
       {/* Everywhere else Skip rides under the options — always on offer, like
           "Not Relevant". */}
       {active && onSkip && !(question.multi && options.length > 0) && (
-        <button type="button" className="ask-skip-row" onClick={onSkip}>
-          Skip →
+        <button type="button" className="ask-skip-link ask-skip-solo" onClick={onSkip}>
+          Skip
         </button>
       )}
     </div>

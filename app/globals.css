@@ -3099,6 +3099,12 @@ body.is-resizing-panes {
   cursor: pointer;
 }
 
+/* Alone (no Next beside it): sits under the options, flush right. */
+.ask-skip-solo {
+  display: block;
+  margin: 6px 0 0 auto;
+}
+
 .ask-skip-link:hover {
   color: var(--l-color-blue-100);
   background: var(--l-color-blue-5, #f6f9ff);
@@ -3182,28 +3188,6 @@ body.is-resizing-panes {
 .row-indicator[data-checked] {
   background: var(--l-color-blue-100);
   border-color: var(--l-color-blue-100);
-}
-
-/* Skip: a quiet always-there row under the options, sibling to "I don't know". */
-.ask-skip-row {
-  display: block;
-  width: 100%;
-  margin-top: 6px;
-  padding: 7px 11px;
-  border: none;
-  border-radius: 9px;
-  background: none;
-  text-align: right;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--l-color-darkblue-50);
-  cursor: pointer;
-}
-
-.ask-skip-row:hover {
-  color: var(--l-color-blue-100);
-  background: var(--l-color-blue-5, #f6f9ff);
 }
 
 .option-row.row-more {
