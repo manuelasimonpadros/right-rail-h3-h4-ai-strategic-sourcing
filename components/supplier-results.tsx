@@ -82,6 +82,8 @@ type SupplierResultsProps = {
   /** Reports how many suppliers sit on the engage rail, for the stage bar. */
   /** Engage tray's Smart Filters control: reopens the define pane. */
   onRefine: () => void;
+  /** False once the buyer has exited the agent; the tray control then reads "Open agent". */
+  agentOpen: boolean;
   /** True once the run wraps up or the buyer clicks Done. */
   /** Increments on Reset so the rail can drop auto-queued chips. */
   runId: number;
@@ -99,6 +101,7 @@ export function SupplierResults({
   onApplyFilterAnswer,
   onClearMappedAnswers,
   onRefine,
+  agentOpen,
   runId,
 }: SupplierResultsProps) {
   const [page, setPage] = useState(1);
@@ -738,9 +741,14 @@ export function SupplierResults({
           </div>
         ) : (
           <div className="engage-tray-bar">
-            <button type="button" className="engage-tray-refine" aria-label="Smart Filters" onClick={onRefine}>
+            <button
+              type="button"
+              className="engage-tray-refine"
+              aria-label={agentOpen ? "Smart Filters" : "Open agent"}
+              onClick={onRefine}
+            >
               <l-icon name="sparkles" fill aria-hidden="true" />
-              <span className="engage-tray-refine-label">Smart Filters</span>
+              <span className="engage-tray-refine-label">{agentOpen ? "Smart Filters" : "Open agent"}</span>
             </button>
             {/* Marks and their count share one cell, so the count sits against the
                 logos instead of being pushed out by the button column below. */}

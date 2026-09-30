@@ -899,6 +899,7 @@ export function SourcingExperience() {
             onApplyFilterAnswer={applyFilterAnswer}
             onClearMappedAnswers={() => removeAnswers(syncableQuestionIds())}
             onRefine={openDefine}
+            agentOpen={agentOpen}
             runId={runId}
           />
         </section>
