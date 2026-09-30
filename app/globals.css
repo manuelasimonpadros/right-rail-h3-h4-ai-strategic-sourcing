@@ -3345,12 +3345,13 @@ body.is-resizing-panes {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  /* Pulled out by the glyph's own side space, so the X lines up with the
-     panel's right padding while the hover fill has room, and up by half the
-     difference from the title's line so it centres on the title. */
-  margin: -4px calc(var(--l-space-2) * -1) 0 0;
+  width: 24px;
+  height: 24px;
+  /* Tucked into the header's gap and the panel's right padding so the title
+     keeps its full width: "Smart filter your search" needs about 185px of
+     the 253px row, and the badge, gaps and this button share the rest. The
+     top margin centres it on the title's line. */
+  margin: -2px -5px 0 -8px;
   padding: 0;
   background: none;
   border: none;
