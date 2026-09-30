@@ -3073,7 +3073,7 @@ body.is-resizing-panes {
 .ask-submit {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: var(--l-space-3);
 }
 
@@ -3110,21 +3110,6 @@ body.is-resizing-panes {
 .ask-skip-link:hover {
   color: var(--l-color-blue-100);
   background: var(--l-color-blue-5, #f6f9ff);
-}
-
-/* Scoped under .ask-block so it outranks the transcript's generic p size. */
-.ask-block .ask-multi-hint {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--l-space-3);
-  font-size: 13px;
-  color: var(--l-color-darkblue-75);
-}
-
-.ask-block .ask-multi-count {
-  font-weight: var(--l-font-weight-semibold);
-  color: var(--l-color-blue-100);
 }
 
 .option-row {

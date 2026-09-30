@@ -396,14 +396,6 @@ export function AskBlock({
         </form>
       )}
 
-      {/* The instruction belongs with the options it governs, not the button. */}
-      {active && !question.search && question.multi && options.length > 0 && (
-        <p className="ask-multi-hint mar-0">
-          <span>Select all that apply</span>
-          {picked.length > 0 && <span className="ask-multi-count">{picked.length} selected</span>}
-        </p>
-      )}
-
       {/* The search question's catalog lives in the dropdown, not in rows. */}
       {active &&
         !question.search &&
@@ -432,6 +424,7 @@ export function AskBlock({
           rows only toggles them, so the buyer can choose more than one. */}
       {active && question.multi && options.length > 0 && (
         <div className="ask-submit">
+          <small className="txt-darkblue-50">Select all that apply</small>
           <button
             kind="primary"
             type="button"
