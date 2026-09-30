@@ -3337,15 +3337,9 @@ body.is-resizing-panes {
 }
 
 /* The opt-out: an icon-only close, labelled by its tooltip and aria-label. It
-   gets its own row above the header: beside
+   shares the header's row with the title: beside
    the title it forced "Smart filter your search" onto two lines, and the
    footer has no room for a label at the pane's default width. */
-.agent-exit-row {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: var(--l-space-4);
-}
-
 .agent-exit {
   flex-shrink: 0;
   display: inline-flex;
@@ -3354,8 +3348,9 @@ body.is-resizing-panes {
   width: 28px;
   height: 28px;
   /* Pulled out by the glyph's own side space, so the X lines up with the
-     panel's right padding while the hover fill has room. */
-  margin-right: calc(var(--l-space-2) * -1);
+     panel's right padding while the hover fill has room, and up by half the
+     difference from the title's line so it centres on the title. */
+  margin: -4px calc(var(--l-space-2) * -1) 0 0;
   padding: 0;
   background: none;
   border: none;
@@ -3371,7 +3366,7 @@ body.is-resizing-panes {
 
 /* Same breakpoint as the reopen tab: the phone layout owns pane switching. */
 @media (max-width: 699px) {
-  .agent-exit-row {
+  .agent-exit {
     display: none;
   }
 }

@@ -635,7 +635,14 @@ export function SourcingExperience() {
         <section className="pane pane-left" aria-label="Define your need" hidden={!agentOpen}>
           <div className="agent-card">
             <div className="agent-body" ref={scrollRef}>
-            <div className="agent-exit-row">
+            <div className="agent-header">
+              <span className="agent-badge" aria-hidden="true">
+                <l-icon name="sparkles" fill />
+              </span>
+              <div className="agent-header-copy flex-1">
+                <h4 className="mar-0">Smart filter your search</h4>
+                <p className="agent-searching mar-0">Find the perfect supplier</p>
+              </div>
               <button
                 className="agent-exit"
                 type="button"
@@ -645,15 +652,6 @@ export function SourcingExperience() {
               >
                 <l-icon name="xmark" aria-hidden="true" />
               </button>
-            </div>
-            <div className="agent-header">
-              <span className="agent-badge" aria-hidden="true">
-                <l-icon name="sparkles" fill />
-              </span>
-              <div className="agent-header-copy flex-1">
-                <h4 className="mar-0">Smart filter your search</h4>
-                <p className="agent-searching mar-0">Find the perfect supplier</p>
-              </div>
             </div>
             <div className="transcript" data-browse={browseAsks || undefined}>
               {browseAsks
