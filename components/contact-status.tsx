@@ -101,10 +101,7 @@ export function ContactStatus({ contactable }: { contactable: boolean }) {
         onMouseLeave={() => setTip(null)}
         onFocus={(event) => setTip(placeTip(event.currentTarget))}
         onBlur={() => setTip(null)}
-        onClick={(event) => {
-          const el = event.currentTarget;
-          setTip((current) => (current ? null : placeTip(el)));
-        }}
+        onClick={(event) => setTip(placeTip(event.currentTarget))}
       >
         {contactable ? <MailCheckBadge /> : <MailSlashIcon size={18} />}
       </button>
