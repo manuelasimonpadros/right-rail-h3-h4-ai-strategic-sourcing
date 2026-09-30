@@ -643,7 +643,6 @@ export function SourcingExperience() {
                 aria-label="Exit agent"
                 onClick={closeChat}
               >
-                <l-icon name="sparkles" fill aria-hidden="true" />
                 Exit agent
               </button>
             </div>

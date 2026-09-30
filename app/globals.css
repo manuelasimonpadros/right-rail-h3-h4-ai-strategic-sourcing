@@ -3336,8 +3336,8 @@ body.is-resizing-panes {
   gap: var(--l-space-2);
 }
 
-/* The opt-out, labelled so it reads as leaving the agent, but quiet enough not
-   to compete with Back and Done. It gets its own row above the header: beside
+/* The opt-out, styled as the twin of the "Open agent" pill so the two read as
+   one control. It gets its own row above the header: beside
    the title it forced "Smart filter your search" onto two lines, and the
    footer has no room for a label at the pane's default width. */
 .agent-exit-row {
@@ -3349,23 +3349,24 @@ body.is-resizing-panes {
 .agent-exit {
   display: inline-flex;
   align-items: center;
-  gap: var(--l-space-1);
+  justify-content: center;
   flex-shrink: 0;
-  padding: var(--l-space-1) var(--l-space-2);
-  border: none;
-  border-radius: var(--l-radius-1);
-  background: none;
+  height: 40px;
+  padding: 0 var(--l-space-4);
+  background: #fff;
+  border: 1px solid var(--l-color-blue-100);
+  border-radius: var(--l-radius-full);
+  color: var(--l-color-blue-100);
   font-family: inherit;
-  font-size: 12.5px;
+  font-size: var(--l-font-size-smaller);
   font-weight: var(--l-font-weight-semibold);
   white-space: nowrap;
-  color: var(--l-color-darkblue-75);
   cursor: pointer;
+  transition: background 0.12s ease;
 }
 
 .agent-exit:hover {
-  color: var(--l-color-blue-100);
-  background: var(--l-color-blue-5, #f6f9ff);
+  background: var(--l-color-blue-5, #f2f8fd);
 }
 
 /* Same breakpoint as the reopen tab: the phone layout owns pane switching. */
