@@ -3336,11 +3336,6 @@ body.is-resizing-panes {
   gap: var(--l-space-2);
 }
 
-.panel-collapse-icon {
-  display: block;
-  flex-shrink: 0;
-}
-
 /* The opt-out, labelled so it reads as leaving the agent, but quiet enough not
    to compete with Back and Done. It lives in the header: the footer has no
    room for a label at the pane's default width. */

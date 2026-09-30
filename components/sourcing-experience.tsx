@@ -860,39 +860,7 @@ export function SourcingExperience() {
             aria-label="Open agent"
             onClick={() => setAgentOpen(true)}
           >
-            <svg
-              className="panel-collapse-icon"
-              viewBox="0 0 16 16"
-              width="16"
-              height="16"
-              aria-hidden="true"
-            >
-              <rect
-                x="1.25"
-                y="1.25"
-                width="13.5"
-                height="13.5"
-                rx="2.5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.4"
-              />
-              <path
-                d="M5.25 2.5v11"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinecap="round"
-              />
-              <path
-                d="M8.5 5.25 11 8l-2.5 2.75"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <l-icon name="sparkles" fill aria-hidden="true" />
             Open agent
           </button>
         )}
