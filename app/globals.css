@@ -2027,11 +2027,11 @@ body.is-resizing-panes {
   width: auto;
   height: 40px;
   padding: 0 var(--l-space-4);
-  background: var(--l-color-blue-100);
-  border: 1px solid var(--l-color-blue-100);
+  background: var(--l-color-blue-10);
+  border: 1px solid var(--l-color-blue-10);
   border-radius: var(--l-radius-full);
   box-shadow: 0 4px 16px rgb(9 44 71 / 0.14);
-  color: #fff;
+  color: var(--l-color-blue-100);
   font-family: inherit;
   font-size: var(--l-font-size-smaller);
   font-weight: var(--l-font-weight-semibold);
@@ -2040,9 +2040,9 @@ body.is-resizing-panes {
 }
 
 .agent-tab:hover {
-  background: var(--l-color-blue-125);
-  border-color: var(--l-color-blue-125);
-  color: #fff;
+  background: var(--l-color-blue-25);
+  border-color: var(--l-color-blue-25);
+  color: var(--l-color-blue-100);
 }
 
 .pane-scroll {
