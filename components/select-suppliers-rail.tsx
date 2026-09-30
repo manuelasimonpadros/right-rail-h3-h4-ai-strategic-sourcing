@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MailSlashIcon } from "@/components/contact-status";
+import { MailDashIcon } from "@/components/contact-status";
 import { SupplierLogo } from "@/components/supplier-logo";
 import {
   RAIL_LIMIT,
@@ -112,7 +112,7 @@ export function SelectSuppliersRail({
             aria-label={UNCONTACTABLE_NOTE}
             onClick={(event) => showTip(event.currentTarget)}
           >
-            <MailSlashIcon />
+            <MailDashIcon />
           </button>
         )}
         <button

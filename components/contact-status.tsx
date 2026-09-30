@@ -6,8 +6,9 @@ import { UNCONTACTABLE_NOTE } from "@/lib/suppliers";
 
 export const CONTACTABLE_NOTE = "This supplier can be contacted through Thomas.";
 
-/** An envelope with a diagonal slash, drawn to sit with the icon set's regular weight. */
-export function MailSlashIcon({ size = 16 }: { size?: number }) {
+/** An envelope with a dash badge, the counterpart to the contactable badge's check. */
+export function MailDashIcon({ size = 16 }: { size?: number }) {
+  const mask = `${useId()}-knockout`;
   return (
     <svg
       viewBox="0 0 16 16"
@@ -15,15 +16,24 @@ export function MailSlashIcon({ size = 16 }: { size?: number }) {
       height={size}
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.4"
+      strokeWidth="1.3"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
       focusable="false"
     >
-      <rect x="2" y="3" width="12" height="10" rx="1.4" />
-      <path d="M2.4 4.6 8 8.8l5.6-4.2" />
-      <path d="M2 14 14 2" />
+      <defs>
+        <mask id={mask} maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+          <rect width="16" height="16" fill="#fff" />
+          <circle cx="12" cy="11.5" r="4.9" fill="#000" />
+        </mask>
+      </defs>
+      <g mask={`url(#${mask})`}>
+        <rect x="1" y="2.5" width="13" height="10" rx="1.6" />
+        <path d="M1.5 4.1 7.5 8.5l6-4.4" />
+      </g>
+      <circle cx="12" cy="11.5" r="3.5" fill="currentColor" stroke="none" />
+      <path d="M10.4 11.5h3.2" stroke="#fff" strokeWidth="1.4" />
     </svg>
   );
 }
@@ -97,7 +107,7 @@ export function ContactStatus({ contactable }: { contactable: boolean }) {
         onBlur={() => setTip(null)}
         onClick={(event) => setTip(placeTip(event.currentTarget))}
       >
-        {contactable ? <MailCheckBadge /> : <MailSlashIcon size={18} />}
+        {contactable ? <MailCheckBadge /> : <MailDashIcon size={18} />}
       </button>
       {tip &&
         createPortal(
