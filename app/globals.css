@@ -3337,9 +3337,19 @@ body.is-resizing-panes {
 }
 
 /* The opt-out, labelled so it reads as leaving the agent, but quiet enough not
-   to compete with Back and Done. It lives in the header: the footer has no
-   room for a label at the pane's default width. */
+   to compete with Back and Done. It gets its own row above the header: beside
+   the title it forced "Smart filter your search" onto two lines, and the
+   footer has no room for a label at the pane's default width. */
+.agent-exit-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--l-space-1);
+}
+
 .agent-exit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--l-space-1);
   flex-shrink: 0;
   padding: var(--l-space-1) var(--l-space-2);
   border: none;
@@ -3360,7 +3370,7 @@ body.is-resizing-panes {
 
 /* Same breakpoint as the reopen tab: the phone layout owns pane switching. */
 @media (max-width: 699px) {
-  .agent-exit {
+  .agent-exit-row {
     display: none;
   }
 }

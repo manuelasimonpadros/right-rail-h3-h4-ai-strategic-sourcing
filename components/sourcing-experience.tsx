@@ -635,6 +635,18 @@ export function SourcingExperience() {
         <section className="pane pane-left" aria-label="Define your need" hidden={!agentOpen}>
           <div className="agent-card">
             <div className="agent-body" ref={scrollRef}>
+            <div className="agent-exit-row">
+              <button
+                className="agent-exit"
+                type="button"
+                title={`Exit agent — ${OPT_OUT_HINT}`}
+                aria-label="Exit agent"
+                onClick={closeChat}
+              >
+                <l-icon name="sparkles" fill aria-hidden="true" />
+                Exit agent
+              </button>
+            </div>
             <div className="agent-header">
               <span className="agent-badge" aria-hidden="true">
                 <l-icon name="sparkles" fill />
@@ -643,15 +655,6 @@ export function SourcingExperience() {
                 <h4 className="mar-0">Smart filter your search</h4>
                 <p className="agent-searching mar-0">Find the perfect supplier</p>
               </div>
-              <button
-                className="agent-exit"
-                type="button"
-                title={`Exit agent — ${OPT_OUT_HINT}`}
-                aria-label="Exit agent"
-                onClick={closeChat}
-              >
-                Exit agent
-              </button>
             </div>
             <div className="transcript" data-browse={browseAsks || undefined}>
               {browseAsks
