@@ -643,7 +643,7 @@ export function SourcingExperience() {
                 aria-label="Exit agent"
                 onClick={closeChat}
               >
-                Exit agent
+                <l-icon name="xmark" aria-hidden="true" />
               </button>
             </div>
             <div className="agent-header">
