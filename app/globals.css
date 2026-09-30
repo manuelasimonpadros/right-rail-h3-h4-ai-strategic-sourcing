@@ -3110,16 +3110,17 @@ body.is-resizing-panes {
   background: var(--l-color-blue-5, #f6f9ff);
 }
 
-.ask-multi-hint {
+/* Scoped under .ask-block so it outranks the transcript's generic p size. */
+.ask-block .ask-multi-hint {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--l-space-3);
-  font-size: 12.5px;
+  font-size: 13px;
   color: var(--l-color-darkblue-75);
 }
 
-.ask-multi-count {
+.ask-block .ask-multi-count {
   font-weight: var(--l-font-weight-semibold);
   color: var(--l-color-blue-100);
 }
