@@ -21,9 +21,8 @@ export function MailSlashIcon({ size = 16 }: { size?: number }) {
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M13.6 4.4V3.6a1 1 0 0 0-1-1H3.4a1 1 0 0 0-1 1v6.8a1 1 0 0 0 1 1h5.5" />
-      <path d="M2.6 4.2 8 8.2l2.6-1.9" />
-      <path d="M13.4 6.2v4.2a1 1 0 0 1-1 1h-.6" />
+      <rect x="2" y="3" width="12" height="10" rx="1.4" />
+      <path d="M2.4 4.6 8 8.8l5.6-4.2" />
       <path d="M2 14 14 2" />
     </svg>
   );
