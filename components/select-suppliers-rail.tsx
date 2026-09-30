@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { MailSlashIcon } from "@/components/contact-status";
 import { SupplierLogo } from "@/components/supplier-logo";
 import {
   RAIL_LIMIT,
@@ -92,7 +93,10 @@ export function SelectSuppliersRail({
               ? `${supplier.name} — ${UNCONTACTABLE_NOTE}`
               : `Show ${supplier.name} in results`
           }
-          onClick={() => onReveal(supplier.id)}
+          onClick={() => {
+            hideTip();
+            onReveal(supplier.id);
+          }}
         >
           <span className="rail-logo" aria-hidden="true">
             <SupplierLogo name={supplier.name} size={22} />
@@ -102,9 +106,14 @@ export function SelectSuppliersRail({
           </span>
         </button>
         {blocked && (
-          <span className="rail-chip-flag" aria-hidden="true">
-            <l-icon name="ban" />
-          </span>
+          <button
+            type="button"
+            className="rail-chip-flag"
+            aria-label={UNCONTACTABLE_NOTE}
+            onClick={(event) => showTip(event.currentTarget)}
+          >
+            <MailSlashIcon />
+          </button>
         )}
         <button
           type="button"

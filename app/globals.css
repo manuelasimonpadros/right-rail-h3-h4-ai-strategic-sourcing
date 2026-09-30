@@ -2298,9 +2298,38 @@ body.is-resizing-panes {
 .rail-chip-flag {
   display: inline-flex;
   flex-shrink: 0;
+  align-items: center;
   margin-left: auto;
+  padding: 0;
+  border: none;
+  background: none;
   color: var(--l-color-darkblue-75);
   font-size: var(--l-font-size-smallest);
+  cursor: default;
+}
+
+/* The contactability marker beside a supplier card's name. */
+.contact-status {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
+  line-height: 1;
+  cursor: default;
+}
+
+.contact-status.is-blocked {
+  color: var(--l-color-darkblue-75);
+}
+
+.contact-status:focus-visible,
+.rail-chip-flag:focus-visible {
+  outline: 2px solid var(--l-color-blue-100);
+  outline-offset: 2px;
+  border-radius: var(--l-radius-1);
 }
 
 /* Always visible: the reason for the button's lower count can't sit behind
