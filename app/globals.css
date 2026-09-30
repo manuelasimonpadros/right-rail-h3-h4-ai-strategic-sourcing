@@ -679,7 +679,8 @@ p,
 }
 
 .contact-file-name {
-  flex: 0 1 auto;
+  /* Takes the slack, so the size and remove button sit flush right. */
+  flex: 1 1 auto;
   min-width: 0;
   overflow: hidden;
   color: var(--l-color-darkblue-100);
@@ -696,7 +697,6 @@ p,
 }
 
 .contact-file-remove {
-  /* Sits right after the name and size, not pinned to the card's far edge. */
   display: inline-flex;
   align-items: center;
   justify-content: center;
