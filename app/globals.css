@@ -3077,6 +3077,11 @@ body.is-resizing-panes {
   gap: var(--l-space-3);
 }
 
+/* Quieter than the options above it; scoped to outrank the transcript's small. */
+.ask-block .ask-submit small {
+  font-size: 12px;
+}
+
 /* Same geometry as the footer's Done button, so the two read as one family. */
 .ask-submit .ask-next {
   height: 32px;
