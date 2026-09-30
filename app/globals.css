@@ -3344,12 +3344,15 @@ body.is-resizing-panes {
   z-index: 4;
   flex: 0 0 0;
   width: 0;
-  align-self: center;
+  align-self: flex-start;
 }
 
+/* Vertically centred on the hairline under the panel header: the header is
+   68px tall (one-line title), and the handle is 44px, so its top sits 46px
+   down. */
 .agent-exit {
   position: absolute;
-  top: -22px;
+  top: 46px;
   left: -10px;
   display: flex;
   align-items: center;
