@@ -3073,7 +3073,7 @@ body.is-resizing-panes {
 .ask-submit {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: var(--l-space-3);
 }
 
@@ -3099,7 +3099,7 @@ body.is-resizing-panes {
   cursor: pointer;
 }
 
-/* Alone (no Next beside it): a full-width row under the options, centred. */
+/* A full-width row at the foot of the question, centred, with or without Next. */
 .ask-skip-solo {
   display: block;
   width: 100%;

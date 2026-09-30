@@ -429,17 +429,9 @@ export function AskBlock({
         ))}
 
       {/* Multi-select questions settle from an explicit log button — picking
-          rows only toggles them, so the buyer can choose more than one. Skip
-          sits beside it, quiet, so Next is the one forward action. */}
+          rows only toggles them, so the buyer can choose more than one. */}
       {active && question.multi && options.length > 0 && (
         <div className="ask-submit">
-          {onSkip ? (
-            <button type="button" className="ask-skip-link" onClick={onSkip}>
-              Skip
-            </button>
-          ) : (
-            <span />
-          )}
           <button
             kind="primary"
             type="button"
@@ -452,9 +444,9 @@ export function AskBlock({
         </div>
       )}
 
-      {/* Everywhere else Skip rides under the options — always on offer, like
-          "Not Relevant". */}
-      {active && onSkip && !(question.multi && options.length > 0) && (
+      {/* Skip is always a quiet, centred row at the foot of the question, so it
+          sits in the same place whether or not Next is above it. */}
+      {active && onSkip && (
         <button type="button" className="ask-skip-link ask-skip-solo" onClick={onSkip}>
           Skip
         </button>
