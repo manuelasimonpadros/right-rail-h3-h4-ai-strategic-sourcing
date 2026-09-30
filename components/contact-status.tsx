@@ -25,7 +25,7 @@ export function MailDashIcon({ size = 16 }: { size?: number }) {
       <defs>
         <mask id={mask} maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
           <rect width="16" height="16" fill="#fff" />
-          <circle cx="12" cy="11.5" r="4.9" fill="#000" />
+          <circle cx="12" cy="11.5" r="4.3" fill="#000" />
         </mask>
       </defs>
       <g mask={`url(#${mask})`}>
