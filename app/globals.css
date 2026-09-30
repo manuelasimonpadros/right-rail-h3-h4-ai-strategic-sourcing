@@ -2332,29 +2332,6 @@ body.is-resizing-panes {
   border-radius: var(--l-radius-1);
 }
 
-/* Always visible: the reason for the button's lower count can't sit behind
-   a hover, which touch can't reach and most buyers never try. */
-.select-rail .rail-blocked-note {
-  align-items: center;
-  margin-top: var(--l-space-2);
-  margin-bottom: 0;
-  padding: var(--l-space-2) var(--l-space-3);
-  border-radius: var(--l-radius-1);
-  background: var(--l-color-blue-10);
-  /* Same size and leading as the RFI card's own copy above it. */
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.select-rail .rail-blocked-note l-icon {
-  font-size: 14px;
-}
-
-/* Tighter than the default gap so the note reads as belonging to the CTA. */
-.select-rail .rail-blocked-note + .select-rail-actions {
-  margin-top: var(--l-space-2);
-}
-
 .rail-tip {
   position: fixed;
   z-index: 60;
