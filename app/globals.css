@@ -3099,11 +3099,12 @@ body.is-resizing-panes {
   cursor: pointer;
 }
 
-/* Alone (no Next beside it): sits under the options, in the same left spot
-   it has beside Next. */
+/* Alone (no Next beside it): a full-width row under the options, centred. */
 .ask-skip-solo {
   display: block;
+  width: 100%;
   margin: 6px 0 0;
+  text-align: center;
 }
 
 .ask-skip-link:hover {
