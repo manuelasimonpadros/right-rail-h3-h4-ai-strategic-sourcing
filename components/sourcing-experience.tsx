@@ -788,13 +788,14 @@ export function SourcingExperience() {
                     undo, and the all-questions accordion. */}
                 <div className="answer-actions">
                   <button
-                    className="ghost-button answer-tool"
+                    className="ghost-button answer-tool answer-exit"
                     type="button"
-                    title={`Close Smart Filters — ${OPT_OUT_HINT}`}
-                    aria-label="Close Smart Filters"
+                    title={`Exit agent — ${OPT_OUT_HINT}`}
+                    aria-label="Exit agent"
                     onClick={closeChat}
                   >
                     <l-icon name="angle-left" aria-hidden="true" />
+                    Exit agent
                   </button>
                   <button
                     className="define-back"
@@ -856,8 +857,8 @@ export function SourcingExperience() {
           <button
             type="button"
             className="agent-tab"
-            title="Open Smart Filters"
-            aria-label="Open Smart Filters"
+            title="Open agent"
+            aria-label="Open agent"
             onClick={() => setAgentOpen(true)}
           >
             <svg
@@ -893,7 +894,7 @@ export function SourcingExperience() {
                 strokeLinejoin="round"
               />
             </svg>
-            Open Smart Filters
+            Open agent
           </button>
         )}
       </main>

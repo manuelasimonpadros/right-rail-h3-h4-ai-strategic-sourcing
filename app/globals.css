@@ -3357,6 +3357,19 @@ body.is-resizing-panes {
   color: var(--l-color-darkblue-100);
 }
 
+/* The opt-out, labelled so it reads as leaving the agent, but quiet enough not
+   to compete with Back and Done. */
+.answer-actions .answer-exit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--l-space-1);
+  padding: 6px var(--l-space-1);
+  font-size: 12.5px;
+  font-weight: var(--l-font-weight-semibold);
+  white-space: nowrap;
+  color: var(--l-color-darkblue-75);
+}
+
 /* Sized like the supplier-card CTAs ("Visit Website"), the app's default
    CTA geometry: 32px tall, 3px radius, 12.5px semibold. */
 .define-back,
