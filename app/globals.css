@@ -2027,11 +2027,11 @@ body.is-resizing-panes {
   width: auto;
   height: 40px;
   padding: 0 var(--l-space-4);
-  background: #fff;
+  background: var(--l-color-blue-100);
   border: 1px solid var(--l-color-blue-100);
   border-radius: var(--l-radius-full);
   box-shadow: 0 4px 16px rgb(9 44 71 / 0.14);
-  color: var(--l-color-blue-100);
+  color: #fff;
   font-family: inherit;
   font-size: var(--l-font-size-smaller);
   font-weight: var(--l-font-weight-semibold);
@@ -2040,9 +2040,9 @@ body.is-resizing-panes {
 }
 
 .agent-tab:hover {
-  background: var(--l-color-blue-5, #f2f8fd);
-  border-color: var(--l-color-blue-100);
-  color: var(--l-color-blue-100);
+  background: var(--l-color-blue-125);
+  border-color: var(--l-color-blue-125);
+  color: #fff;
 }
 
 .pane-scroll {
@@ -3336,8 +3336,8 @@ body.is-resizing-panes {
   gap: var(--l-space-2);
 }
 
-/* The opt-out: a small filled chip in the primary blue. It gets its own row
-   above the header: beside
+/* The opt-out: a plain blue text button, the quiet counterpart to the filled
+   "Open agent" chip. It gets its own row above the header: beside
    the title it forced "Smart filter your search" onto two lines, and the
    footer has no room for a label at the pane's default width. */
 .agent-exit-row {
@@ -3347,27 +3347,21 @@ body.is-resizing-panes {
 }
 
 .agent-exit {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   flex-shrink: 0;
-  height: 28px;
-  padding: 0 var(--l-space-3);
-  background: var(--l-color-blue-100);
-  border: 1px solid var(--l-color-blue-100);
-  border-radius: var(--l-radius-full);
-  color: #fff;
+  padding: var(--l-space-1) 0;
+  background: none;
+  border: none;
+  color: var(--l-color-blue-100);
   font-family: inherit;
   font-size: 12.5px;
   font-weight: var(--l-font-weight-semibold);
   white-space: nowrap;
   cursor: pointer;
-  transition: background 0.12s ease;
 }
 
 .agent-exit:hover {
-  background: var(--l-color-blue-125);
-  border-color: var(--l-color-blue-125);
+  color: var(--l-color-blue-125);
+  text-decoration: underline;
 }
 
 /* Same breakpoint as the reopen tab: the phone layout owns pane switching. */
