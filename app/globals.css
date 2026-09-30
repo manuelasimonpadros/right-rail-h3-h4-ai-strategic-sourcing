@@ -3348,9 +3348,13 @@ body.is-resizing-panes {
 
 .agent-exit {
   flex-shrink: 0;
-  padding: var(--l-space-1) 0;
+  /* Side padding is pulled back out with a negative margin, so the text keeps
+     its place while the hover fill gets room to read as a button. */
+  padding: var(--l-space-1) var(--l-space-2);
+  margin-right: calc(var(--l-space-2) * -1);
   background: none;
   border: none;
+  border-radius: var(--l-radius-1);
   color: var(--l-color-blue-100);
   font-family: inherit;
   font-size: 12.5px;
@@ -3360,8 +3364,8 @@ body.is-resizing-panes {
 }
 
 .agent-exit:hover {
-  color: var(--l-color-blue-125);
-  text-decoration: underline;
+  background: var(--l-color-blue-10);
+  color: var(--l-color-blue-100);
 }
 
 /* Same breakpoint as the reopen tab: the phone layout owns pane switching. */
