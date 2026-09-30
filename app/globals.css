@@ -3077,6 +3077,47 @@ body.is-resizing-panes {
   gap: var(--l-space-3);
 }
 
+/* Same geometry as the footer's Done button, so the two read as one family. */
+.ask-submit .ask-next {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 12.5px;
+  font-weight: var(--l-font-weight-semibold);
+}
+
+/* Skip is the quiet sibling of Next: text only, no forward arrow. */
+.ask-skip-link {
+  height: 32px;
+  padding: 0 var(--l-space-2);
+  border: none;
+  border-radius: var(--l-radius-1);
+  background: none;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: var(--l-font-weight-semibold);
+  color: var(--l-color-darkblue-75);
+  cursor: pointer;
+}
+
+.ask-skip-link:hover {
+  color: var(--l-color-blue-100);
+  background: var(--l-color-blue-5, #f6f9ff);
+}
+
+.ask-multi-hint {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--l-space-3);
+  font-size: 12px;
+  color: var(--l-color-darkblue-75);
+}
+
+.ask-multi-count {
+  font-weight: var(--l-font-weight-semibold);
+  color: var(--l-color-blue-100);
+}
+
 .option-row {
   display: flex;
   align-items: center;

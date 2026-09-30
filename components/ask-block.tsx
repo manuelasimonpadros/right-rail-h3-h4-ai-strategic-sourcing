@@ -396,6 +396,14 @@ export function AskBlock({
         </form>
       )}
 
+      {/* The instruction belongs with the options it governs, not the button. */}
+      {active && !question.search && question.multi && options.length > 0 && (
+        <p className="ask-multi-hint mar-0">
+          <span>Select all that apply</span>
+          {picked.length > 0 && <span className="ask-multi-count">{picked.length} selected</span>}
+        </p>
+      )}
+
       {/* The search question's catalog lives in the dropdown, not in rows. */}
       {active &&
         !question.search &&
@@ -421,19 +429,32 @@ export function AskBlock({
         ))}
 
       {/* Multi-select questions settle from an explicit log button — picking
-          rows only toggles them, so the buyer can choose more than one. */}
+          rows only toggles them, so the buyer can choose more than one. Skip
+          sits beside it, quiet, so Next is the one forward action. */}
       {active && question.multi && options.length > 0 && (
         <div className="ask-submit">
-          <small className="txt-darkblue-50">Select all that apply</small>
-          <button kind="primary" type="button" disabled={picked.length === 0} onClick={onSubmit}>
+          {onSkip ? (
+            <button type="button" className="ask-skip-link" onClick={onSkip}>
+              Skip
+            </button>
+          ) : (
+            <span />
+          )}
+          <button
+            kind="primary"
+            type="button"
+            className="ask-next"
+            disabled={picked.length === 0}
+            onClick={onSubmit}
+          >
             Next
           </button>
         </div>
       )}
 
-      {/* Skip rides under Next (or straight under the options when there is no
-          Next) — always on offer, like "Not Relevant". */}
-      {active && onSkip && (
+      {/* Everywhere else Skip rides under the options — always on offer, like
+          "Not Relevant". */}
+      {active && onSkip && !(question.multi && options.length > 0) && (
         <button type="button" className="ask-skip-row" onClick={onSkip}>
           Skip →
         </button>
