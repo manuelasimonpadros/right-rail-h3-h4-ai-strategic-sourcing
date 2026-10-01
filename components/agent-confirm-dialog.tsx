@@ -36,7 +36,7 @@ export function AgentConfirmDialog({
   return (
     <div className="gate-scrim" role="presentation" onClick={onStay}>
       <div
-        className="gate-card"
+        className="gate-card agent-confirm"
         role="alertdialog"
         aria-modal="true"
         aria-labelledby="agent-confirm-title"
