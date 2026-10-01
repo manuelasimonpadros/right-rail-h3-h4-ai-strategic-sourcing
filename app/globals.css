@@ -3236,6 +3236,46 @@ body.is-resizing-panes {
   gap: var(--l-space-3);
 }
 
+/* Quieter than the options above it; scoped to outrank the transcript's small. */
+.ask-block .ask-submit small {
+  font-size: 12px;
+}
+
+/* Same geometry as the footer's Done button, so the two read as one family. */
+.ask-submit .ask-next {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 12.5px;
+  font-weight: var(--l-font-weight-semibold);
+}
+
+/* Skip is the quiet sibling of Next: text only, no forward arrow. */
+.ask-skip-link {
+  height: 32px;
+  padding: 0 var(--l-space-2);
+  border: none;
+  border-radius: var(--l-radius-1);
+  background: none;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: var(--l-font-weight-semibold);
+  color: var(--l-color-darkblue-75);
+  cursor: pointer;
+}
+
+/* A full-width row at the foot of the question, centred, with or without Next. */
+.ask-skip-solo {
+  display: block;
+  width: 100%;
+  margin: 6px 0 0;
+  text-align: center;
+}
+
+.ask-skip-link:hover {
+  color: var(--l-color-blue-100);
+  background: var(--l-color-blue-5, #f6f9ff);
+}
+
 .option-row {
   display: flex;
   align-items: center;
@@ -3300,28 +3340,6 @@ body.is-resizing-panes {
 .row-indicator[data-checked] {
   background: var(--l-color-blue-100);
   border-color: var(--l-color-blue-100);
-}
-
-/* Skip: a quiet always-there row under the options, sibling to "I don't know". */
-.ask-skip-row {
-  display: block;
-  width: 100%;
-  margin-top: 6px;
-  padding: 7px 11px;
-  border: none;
-  border-radius: 9px;
-  background: none;
-  text-align: center;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--l-color-darkblue-50);
-  cursor: pointer;
-}
-
-.ask-skip-row:hover {
-  color: var(--l-color-blue-100);
-  background: var(--l-color-blue-5, #f6f9ff);
 }
 
 .option-row.row-more {
