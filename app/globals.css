@@ -2285,9 +2285,8 @@ body.is-resizing-panes {
 }
 
 /* Saved, but Thomas can't route a request to them — muted so the chip reads
-   as shortlist-only, with the reason on hover. */
+   as shortlist-only, with the reason on hover (.rail-tip). */
 .select-rail-list li.rail-entry-uncontactable {
-  position: relative;
   border-style: dashed;
   background: var(--l-color-darkblue-5, #f5f7f8);
 }
@@ -2296,12 +2295,47 @@ body.is-resizing-panes {
   opacity: 0.55;
 }
 
-.rail-entry-uncontactable::after {
-  content: attr(data-tip);
-  position: absolute;
-  bottom: calc(100% + 6px);
-  left: 0;
-  z-index: 5;
+/* Not dimmed with the name, so the marker stays readable on the grey chip. */
+.rail-chip-flag {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  margin-left: auto;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--l-color-darkblue-75);
+  font-size: var(--l-font-size-smallest);
+  cursor: default;
+}
+
+/* The contactability marker beside a supplier card's name. */
+.contact-status {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
+  line-height: 1;
+  cursor: default;
+}
+
+.contact-status.is-blocked {
+  color: var(--l-color-darkblue-75);
+}
+
+.contact-status:focus-visible,
+.rail-chip-flag:focus-visible {
+  outline: 2px solid var(--l-color-blue-100);
+  outline-offset: 2px;
+  border-radius: var(--l-radius-1);
+}
+
+.rail-tip {
+  position: fixed;
+  z-index: 60;
   width: max-content;
   max-width: 240px;
   padding: 8px 10px;
@@ -2311,16 +2345,8 @@ body.is-resizing-panes {
   font-size: 11px;
   font-weight: var(--l-font-weight-semibold);
   line-height: 1.35;
-  white-space: normal;
   text-align: left;
-  opacity: 0;
   pointer-events: none;
-  transition: opacity 0.12s ease;
-}
-
-.rail-entry-uncontactable:hover::after,
-.rail-entry-uncontactable:focus-within::after {
-  opacity: 1;
 }
 
 .rail-chip-open {

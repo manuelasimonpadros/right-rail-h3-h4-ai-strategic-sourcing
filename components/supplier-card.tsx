@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
+import { ContactStatus } from "@/components/contact-status";
 import { SupplierLogo } from "@/components/supplier-logo";
 import { BASE_PATH } from "@/lib/base-path";
-import { RAIL_LIMIT, type Supplier } from "@/lib/suppliers";
+import { RAIL_LIMIT, isUncontactable, type Supplier } from "@/lib/suppliers";
 
 type SupplierCardProps = {
   supplier: Supplier;
@@ -134,6 +135,7 @@ export function SupplierCard({
                 title="Verified supplier"
               />
             )}
+            <ContactStatus contactable={!isUncontactable(supplier)} />
           </div>
           <a href="#" className="card-profile-link" onClick={noop}>
             View Profile
