@@ -36,7 +36,7 @@ export const RAIL_LIMIT = 25
 
 /** Shown wherever a supplier Thomas can't route a request to is offered. */
 export const UNCONTACTABLE_NOTE =
-  "This supplier cannot be contacted through Thomas, but can be added to your shortlist."
+  "This supplier cannot be contacted through Thomas."
 
 /**
  * Whether Thomas can route a request to this supplier. Stubbed off the id so

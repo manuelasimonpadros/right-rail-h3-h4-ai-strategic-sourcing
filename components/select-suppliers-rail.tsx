@@ -17,7 +17,6 @@ type SelectSuppliersRailProps = {
   onRemove: (supplierId: string) => void;
   /** Scroll the results list to this supplier's card. */
   onReveal: (supplierId: string) => void;
-  onAddToShortlist: () => void;
   onSendRfi: () => void;
   /** Drafted RFI headline, synthesized from the logged answers. */
   draftTitle: string;
@@ -48,7 +47,6 @@ export function SelectSuppliersRail({
   suppliers,
   onRemove,
   onReveal,
-  onAddToShortlist,
   onSendRfi,
   draftTitle,
   requirementCount,
@@ -133,14 +131,14 @@ export function SelectSuppliersRail({
   return (
     <aside
       className="select-rail"
-      aria-label="Shortlist and contact suppliers"
+      aria-label="Quick contact suppliers"
     >
       <div className="rail-header">
         <span className="rail-badge" aria-hidden="true">
           <l-icon name="paper-plane" />
         </span>
         <div>
-          <h4 className="mar-0">Shortlist &amp; Contact Suppliers</h4>
+          <h4 className="mar-0">Quick Contact Suppliers</h4>
           <p className="mar-0">
             {suppliers.length === 0
               ? "Add suppliers to your list"
@@ -155,7 +153,7 @@ export function SelectSuppliersRail({
           <button
             type="button"
             className="rail-close"
-            aria-label="Close Shortlist & Contact Suppliers"
+            aria-label="Close Quick Contact Suppliers"
             onClick={onClose}
           >
             <l-icon name="xmark" aria-hidden="true" />
@@ -176,7 +174,7 @@ export function SelectSuppliersRail({
                 </svg>
               </span>
             </span>
-          <p className="mar-0">Add suppliers to contact or shortlist</p>
+          <p className="mar-0">Add suppliers to contact</p>
         </div>
       ) : (
         <ul className="select-rail-list" onScroll={hideTip}>
@@ -272,9 +270,6 @@ export function SelectSuppliersRail({
           onClick={onSendRfi}
         >
           Contact {contactable.length} Supplier{contactable.length === 1 ? "" : "s"}
-        </button>
-        <button type="button" className="rail-sub" onClick={onAddToShortlist}>
-          + Add to Shortlist
         </button>
       </div>
 
