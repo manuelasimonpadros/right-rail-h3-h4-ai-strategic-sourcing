@@ -3609,10 +3609,24 @@ body.is-resizing-panes {
   background: var(--l-color-blue-5, #f6f9ff);
 }
 
-/* Exit agent borrows Skip's quiet grey; the link is sized to the row, not Skip's 32px. */
+/* + Add to Shortlist is as big as the Contact button above it (full width, the
+   same 32px), so its hover fill spans the rail. */
+.select-rail-actions .rail-sub {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 12px;
+}
+
+/* The left rail's link row takes the same 32px, so both rails' last rows line up. */
+.agent-links .rail-sub,
 .agent-links .ask-skip-link {
-  height: auto;
-  padding: 6px var(--l-space-2);
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 var(--l-space-2);
 }
 
 .agent-links-sep {
