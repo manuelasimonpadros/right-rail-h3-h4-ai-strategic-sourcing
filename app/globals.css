@@ -3577,10 +3577,90 @@ body.is-resizing-panes {
   border-color: var(--l-color-blue-25);
 }
 
+/* Phone has no panel edge to dock a handle on, so the opt-out is a labelled
+   link on the subtitle row instead. Desktop and tablet keep the edge handle. */
+.agent-subrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--l-space-2);
+}
+
+.agent-exit-inline {
+  display: none;
+  flex-shrink: 0;
+  margin-right: calc(var(--l-space-2) * -1);
+  padding: 2px var(--l-space-2);
+  background: none;
+  border: none;
+  border-radius: var(--l-radius-1);
+  color: var(--l-color-blue-100);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: var(--l-font-weight-semibold);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.agent-exit-inline:hover {
+  background: var(--l-color-blue-10);
+}
+
+/* Opted out of the agent: the page is the legacy experience, so everything the
+   agent added goes: the shortlist rail and its tray, the add-to-list controls,
+   and the contactability badges. A banner and the Open agent chip bring it back. */
+.app-main[data-legacy] .results-body .pane-resizer,
+.app-main[data-legacy] .select-rail,
+.app-main[data-legacy] .engage-tray,
+.app-main[data-legacy] .card-add-wrap,
+.app-main[data-legacy] .contact-status {
+  display: none;
+}
+
+.app-main[data-legacy] {
+  padding-bottom: 0;
+}
+
+.app-main[data-legacy] .agent-tab {
+  bottom: var(--l-space-4);
+}
+
+.legacy-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--l-space-2);
+  padding: var(--l-space-2) var(--l-space-4);
+  background: var(--l-color-blue-10);
+  font-size: var(--l-font-size-smallest);
+  color: var(--l-color-darkblue-75);
+}
+
+.legacy-banner-open {
+  padding: 2px var(--l-space-2);
+  background: none;
+  border: none;
+  border-radius: var(--l-radius-1);
+  color: var(--l-color-blue-100);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: var(--l-font-weight-semibold);
+  cursor: pointer;
+}
+
+.legacy-banner-open:hover {
+  background: var(--l-color-blue-25);
+}
+
 /* Same breakpoint as the reopen tab: the phone layout owns pane switching. */
 @media (max-width: 699px) {
   .agent-edge {
     display: none;
+  }
+
+  .agent-exit-inline {
+    display: inline-block;
   }
 }
 

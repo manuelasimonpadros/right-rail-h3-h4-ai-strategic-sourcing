@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AskBlock } from "@/components/ask-block";
 import { DeepDrawGate } from "@/components/deep-draw-gate";
+import { ExitAgentDialog } from "@/components/exit-agent-dialog";
 import { PaneResizer } from "@/components/pane-resizer";
 import { SiteNavbar } from "@/components/site-navbar";
 import { SupplierResults } from "@/components/supplier-results";
@@ -87,6 +88,10 @@ export function SourcingExperience() {
   const [thinking, setThinking] = useState(false);
   /** Whether the define pane is open. Collapsing hands the width to the results. */
   const [agentOpen, setAgentOpen] = useState(true);
+  /** Opted out of the agent entirely: the page falls back to the legacy
+      experience. Answers are kept so opening the agent again resumes them. */
+  const [exited, setExited] = useState(false);
+  const [exitConfirmOpen, setExitConfirmOpen] = useState(false);
   /** Phone view: which of the three stages the tab bar is showing. */
   const [mobileTab, setMobileTab] = useState<"define" | "evaluate" | "engage">("evaluate");
   /** Suppliers currently on the engage rail, reported up for the stage bar. */
@@ -562,6 +567,20 @@ export function SourcingExperience() {
     setMobileTab("evaluate");
   }, []);
 
+  const exitAgent = useCallback(() => {
+    setExitConfirmOpen(false);
+    setBrowseAsks(false);
+    setAgentOpen(false);
+    setExited(true);
+    setMobileTab("evaluate");
+  }, []);
+
+  const openAgent = useCallback(() => {
+    setExited(false);
+    setAgentOpen(true);
+    setMobileTab("define");
+  }, []);
+
   const reset = useCallback(() => {
     timers.current.forEach(clearTimeout);
     timers.current = [];
@@ -654,6 +673,11 @@ export function SourcingExperience() {
 
   return (
     <div className="app-shell">
+      <ExitAgentDialog
+        open={exitConfirmOpen}
+        onConfirm={exitAgent}
+        onStay={() => setExitConfirmOpen(false)}
+      />
       <DeepDrawGate
         open={deepDrawGateOpen}
         onConfirm={() => {
@@ -665,6 +689,11 @@ export function SourcingExperience() {
       <SiteNavbar
         query={query}
         onSearch={(text) => {
+          // Opted out: a new search just updates the legacy results.
+          if (exited) {
+            setQuery(text.trim() || CATEGORY_LABEL);
+            return;
+          }
           reset();
           const trimmed = text.trim();
           // A specific need typed into the search starts the flow directly;
@@ -675,8 +704,18 @@ export function SourcingExperience() {
         }}
       />
 
+      {exited && (
+        <div className="legacy-banner" role="status">
+          <span>You&apos;re viewing Thomas Classic.</span>
+          <button type="button" className="legacy-banner-open" onClick={openAgent}>
+            Open agent
+          </button>
+        </div>
+      )}
+
       <main
         className="app-main"
+        data-legacy={exited || undefined}
         data-agent-closed={!agentOpen || undefined}
         data-mobile-tab={mobileTab}
       >
@@ -690,7 +729,17 @@ export function SourcingExperience() {
               </span>
               <div className="agent-header-copy flex-1">
                 <h4 className="mar-0">Smart filter your search</h4>
-                <p className="agent-searching mar-0">Find the perfect supplier</p>
+                <div className="agent-subrow">
+                  <p className="agent-searching mar-0">Find the perfect supplier</p>
+                  <button
+                    className="agent-exit-inline"
+                    type="button"
+                    aria-label="Exit agent"
+                    onClick={() => setExitConfirmOpen(true)}
+                  >
+                    Exit agent
+                  </button>
+                </div>
               </div>
             </div>
             <div className="transcript" data-browse={browseAsks || undefined}>
@@ -890,7 +939,7 @@ export function SourcingExperience() {
               type="button"
               title={`Exit agent — ${OPT_OUT_HINT}`}
               aria-label="Exit agent"
-              onClick={closeChat}
+              onClick={() => setExitConfirmOpen(true)}
             >
               <l-icon name="angle-left" aria-hidden="true" />
             </button>
@@ -900,7 +949,7 @@ export function SourcingExperience() {
         {/* Center + right: supplier results and the engage rail */}
         <section className="pane" aria-label="Supplier results">
           <SupplierResults
-            answers={answers}
+            answers={exited ? [] : answers}
             query={query}
             onRemoveAnswer={removeAnswer}
             onApplyFilterAnswer={applyFilterAnswer}
@@ -917,7 +966,7 @@ export function SourcingExperience() {
             className="agent-tab"
             title="Open agent"
             aria-label="Open agent"
-            onClick={() => setAgentOpen(true)}
+            onClick={openAgent}
           >
             <l-icon name="sparkles" fill aria-hidden="true" />
             Open agent
