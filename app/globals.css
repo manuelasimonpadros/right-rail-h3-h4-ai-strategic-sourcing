@@ -3590,9 +3590,12 @@ body.is-resizing-panes {
 }
 
 /* Reset (blue) and Exit agent (grey, like Skip) share one size and weight. */
-.agent-links .rail-sub {
-  /* Inherit the page font like Reset does: a button's default font made the
-     two links render at visibly different sizes despite the same font-size. */
+.agent-links .rail-sub,
+.select-rail-actions .rail-sub {
+  /* One shared look for the rails' closing links (Reset, + Add to Shortlist):
+     the page font, since a button's default font made equal sizes render
+     unequal, with a soft fill on hover instead of an underline. */
+  align-self: center;
   font-family: inherit;
   font-size: 12.5px;
   font-weight: var(--l-font-weight-semibold);
@@ -3600,7 +3603,8 @@ body.is-resizing-panes {
   border-radius: var(--l-radius-1);
 }
 
-.agent-links .rail-sub:hover {
+.agent-links .rail-sub:hover,
+.select-rail-actions .rail-sub:hover {
   text-decoration: none;
   background: var(--l-color-blue-5, #f6f9ff);
 }
