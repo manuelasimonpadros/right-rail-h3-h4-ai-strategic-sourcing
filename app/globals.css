@@ -3585,10 +3585,8 @@ body.is-resizing-panes {
   justify-content: center;
   gap: var(--l-space-2);
   margin-top: var(--l-space-1);
-}
-
-.agent-links .rail-sub {
-  font-size: 12.5px;
+  /* Lines the row up with the right rail's closing link. */
+  margin-bottom: var(--l-space-2);
 }
 
 .agent-links-sep {
