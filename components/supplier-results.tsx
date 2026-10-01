@@ -539,7 +539,6 @@ export function SupplierResults({
 
   /** Rail secondary CTA: saving a list needs an account, so the register wall
       comes first and the picker waits on the other side of signing in. */
-  const shortlistRailSuppliers = () => setShortlistStage("register");
 
   const saveToShortlist = () => {
     setSaved((set) => {
@@ -670,7 +669,6 @@ export function SupplierResults({
           suppliers={railSuppliers}
           onRemove={removeFromRail}
           onReveal={revealSupplier}
-          onAddToShortlist={shortlistRailSuppliers}
           onSendRfi={openRailRfi}
           draftTitle={draftTitle}
           requirementCount={logged.length}
@@ -694,7 +692,7 @@ export function SupplierResults({
             type="button"
             className="engage-tray-scrim"
             tabIndex={-1}
-            aria-label="Close Shortlist & Contact Suppliers"
+            aria-label="Close Quick Contact Suppliers"
             onClick={closeTray}
           />
         )}
@@ -706,8 +704,8 @@ export function SupplierResults({
           aria-controls="engage-tray-sheet"
           aria-label={
             trayOpen
-              ? "Close Shortlist & Contact Suppliers"
-              : "Open Shortlist & Contact Suppliers"
+              ? "Close Quick Contact Suppliers"
+              : "Open Quick Contact Suppliers"
           }
           onClick={toggleTray}
         >
@@ -719,7 +717,7 @@ export function SupplierResults({
             className="engage-tray-sheet"
             role="dialog"
             aria-modal="true"
-            aria-label="Shortlist & Contact Suppliers"
+            aria-label="Quick Contact Suppliers"
           >
             <SelectSuppliersRail
               onClose={closeTray}
@@ -729,7 +727,6 @@ export function SupplierResults({
                 setTrayOpen(false);
                 revealSupplier(supplierId);
               }}
-              onAddToShortlist={fromTray(shortlistRailSuppliers)}
               onSendRfi={fromTray(openRailRfi)}
               draftTitle={draftTitle}
               requirementCount={logged.length}
@@ -769,24 +766,12 @@ export function SupplierResults({
               )}
               <span className="engage-tray-note">
                 {railSuppliers.length === 0
-                  ? "Add suppliers to contact or shortlist"
+                  ? "Add suppliers to contact"
                   : contactableCount < railSuppliers.length
                     ? `${railSuppliers.length} selected · ${contactableCount} contactable`
                     : `${railSuppliers.length} supplier${railSuppliers.length === 1 ? "" : "s"} selected`}
               </span>
             </span>
-            <button
-              kind="neutral"
-              scale="small"
-              type="button"
-              className="engage-tray-shortlist"
-              disabled={railSuppliers.length === 0}
-              onClick={shortlistRailSuppliers}
-            >
-              <span>
-                <span className="engage-tray-shortlist-verb">Add to </span>Shortlist
-              </span>
-            </button>
             <button
               kind="primary"
               scale="small"

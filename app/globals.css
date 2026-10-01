@@ -2737,8 +2737,8 @@ body.is-resizing-panes {
    no pane of its own. */
 .engage-tray-bar {
   display: grid;
-  grid-template-columns: 1fr auto auto;
-  grid-template-areas: "picks shortlist rfi";
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "picks rfi";
   align-items: center;
   gap: var(--l-space-2) var(--l-space-3);
   padding: 0 var(--l-space-4) calc(10px + env(safe-area-inset-bottom));
@@ -2897,13 +2897,8 @@ body.is-resizing-panes {
   color: var(--l-color-darkblue-100);
 }
 
-/* Both actions match Smart Filters' height so the row reads as one set. */
-.engage-tray-shortlist {
-  grid-area: shortlist;
-  white-space: nowrap;
-}
-
-.engage-tray :is(.engage-tray-shortlist, button[kind="primary"]) {
+/* The Contact action matches Smart Filters' height so the row reads as one set. */
+.engage-tray button[kind="primary"] {
   height: 36px;
 }
 
@@ -2912,16 +2907,9 @@ body.is-resizing-panes {
   white-space: nowrap;
 }
 
-/* On a phone the row holds Smart Filters, Shortlist and Contact side by side,
-   and runs off the edge when it can't fit. Below 450px Shortlist drops its
-   verb; below 420px the gaps, side padding and Smart Filters' padding tighten; below 370px
-   Smart Filters drops to its sparkle (still named for screen readers). */
-@media (max-width: 449px) {
-  .engage-tray-shortlist-verb {
-    display: none;
-  }
-}
-
+/* On a phone the row holds Smart Filters and Contact. Below 420px the gaps,
+   side padding and Smart Filters' padding tighten; below 370px Smart Filters
+   drops to its sparkle (still named for screen readers). */
 @media (max-width: 419px) {
   .engage-tray-bar {
     column-gap: var(--l-space-2);
@@ -4649,10 +4637,10 @@ l-icon[name="envelope"]::before {
      beneath — Smart Filters left, Shortlist and Contact right. As one row the
      count was crushed to a few characters wide. */
   .engage-tray-bar {
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: auto 1fr auto;
     grid-template-areas:
-      "picks  picks picks     picks"
-      "refine .     shortlist rfi";
+      "picks  picks picks"
+      "refine .     rfi";
   }
 
   /* One column at a time on a phone — nothing to drag between. */
