@@ -3625,6 +3625,7 @@ body.is-resizing-panes {
 .agent-links .ask-skip-link {
   display: inline-flex;
   align-items: center;
+  gap: var(--l-space-1);
   height: 32px;
   padding: 0 var(--l-space-2);
 }
