@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AskBlock } from "@/components/ask-block";
 import { DeepDrawGate } from "@/components/deep-draw-gate";
-import { ExitAgentDialog } from "@/components/exit-agent-dialog";
+import { AgentConfirmDialog } from "@/components/agent-confirm-dialog";
 import { PaneResizer } from "@/components/pane-resizer";
 import { SiteNavbar } from "@/components/site-navbar";
 import { SupplierResults } from "@/components/supplier-results";
@@ -92,6 +92,7 @@ export function SourcingExperience() {
       experience. Answers are kept so opening the agent again resumes them. */
   const [exited, setExited] = useState(false);
   const [exitConfirmOpen, setExitConfirmOpen] = useState(false);
+  const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
   /** Phone view: which of the three stages the tab bar is showing. */
   const [mobileTab, setMobileTab] = useState<"define" | "evaluate" | "engage">("evaluate");
   /** Suppliers currently on the engage rail, reported up for the stage bar. */
@@ -673,10 +674,26 @@ export function SourcingExperience() {
 
   return (
     <div className="app-shell">
-      <ExitAgentDialog
+      <AgentConfirmDialog
         open={exitConfirmOpen}
+        title="Exit the agent and go back to Thomas Classic?"
+        body="You'll see the standard Thomas search results. Your answers are saved, so you can pick up where you left off if you open the agent again."
+        confirmLabel="Exit agent"
+        stayLabel="Stay"
         onConfirm={exitAgent}
         onStay={() => setExitConfirmOpen(false)}
+      />
+      <AgentConfirmDialog
+        open={resetConfirmOpen}
+        title="Reset the agent?"
+        body="This clears your answers and starts the questions again."
+        confirmLabel="Reset"
+        stayLabel="Keep my answers"
+        onConfirm={() => {
+          setResetConfirmOpen(false);
+          reset();
+        }}
+        onStay={() => setResetConfirmOpen(false)}
       />
       <DeepDrawGate
         open={deepDrawGateOpen}
@@ -729,17 +746,7 @@ export function SourcingExperience() {
               </span>
               <div className="agent-header-copy flex-1">
                 <h4 className="mar-0">Smart filter your search</h4>
-                <div className="agent-subrow">
-                  <p className="agent-searching mar-0">Find the perfect supplier</p>
-                  <button
-                    className="agent-exit-inline"
-                    type="button"
-                    aria-label="Exit agent"
-                    onClick={() => setExitConfirmOpen(true)}
-                  >
-                    Exit agent
-                  </button>
-                </div>
+                <p className="agent-searching mar-0">Find the perfect supplier</p>
               </div>
             </div>
             <div className="transcript" data-browse={browseAsks || undefined}>
@@ -906,21 +913,33 @@ export function SourcingExperience() {
                   <button
                     className="define-tool"
                     type="button"
-                    title="Reset your agent"
-                    aria-label="Reset your agent"
-                    onClick={reset}
-                  >
-                    <l-icon name="arrow-rotate-left" aria-hidden="true" />
-                  </button>
-                  <button
-                    className="define-tool"
-                    type="button"
                     title={browseAsks ? "Expand questions" : "All questions"}
                     aria-label={browseAsks ? "Expand questions" : "All questions"}
                     aria-pressed={browseAsks}
                     onClick={() => setBrowseAsks((open) => !open)}
                   >
                     <l-icon name="list-ul" />
+                  </button>
+                </div>
+                {/* The same closing row as the right rail's "+ Add to Shortlist": quiet
+                    blue links under the primary actions. */}
+                <div className="agent-links">
+                  <button
+                    className="rail-sub"
+                    type="button"
+                    title="Reset your agent — clear your answers and start over"
+                    onClick={() => setResetConfirmOpen(true)}
+                  >
+                    <l-icon name="arrow-rotate-left" aria-hidden="true" /> Reset
+                  </button>
+                  <span className="agent-links-sep" aria-hidden="true" />
+                  <button
+                    className="rail-sub"
+                    type="button"
+                    title={`Exit agent — ${OPT_OUT_HINT}`}
+                    onClick={() => setExitConfirmOpen(true)}
+                  >
+                    Exit agent
                   </button>
                 </div>
               </div>
@@ -935,11 +954,11 @@ export function SourcingExperience() {
         {agentOpen && (
           <div className="agent-edge">
             <button
-              className="agent-exit"
+              className="agent-hide"
               type="button"
-              title={`Exit agent — ${OPT_OUT_HINT}`}
-              aria-label="Exit agent"
-              onClick={() => setExitConfirmOpen(true)}
+              title="Hide panel"
+              aria-label="Hide panel"
+              onClick={closeChat}
             >
               <l-icon name="angle-left" aria-hidden="true" />
             </button>

@@ -3539,9 +3539,9 @@ body.is-resizing-panes {
   gap: var(--l-space-2);
 }
 
-/* The opt-out: a small chevron handle on the panel's right edge, labelled by
-   its tooltip and aria-label. It costs no header or footer space, and mirrors
-   the "Open agent" chip that returns once the panel is closed. */
+/* A small chevron handle on the panel's right edge that hides the panel. It is
+   not the opt-out (that is the "Exit agent" link under the footer), so it keeps
+   the agent's answers and features. It mirrors the "Open agent" chip. */
 .agent-edge {
   position: relative;
   z-index: 4;
@@ -3553,7 +3553,7 @@ body.is-resizing-panes {
 /* Vertically centred on the hairline under the panel header: the header is
    68px tall (one-line title), and the handle is 44px, so its top sits 46px
    down. */
-.agent-exit {
+.agent-hide {
   position: absolute;
   top: 46px;
   left: -10px;
@@ -3572,38 +3572,29 @@ body.is-resizing-panes {
   cursor: pointer;
 }
 
-.agent-exit:hover {
+.agent-hide:hover {
   background: var(--l-color-blue-10);
   border-color: var(--l-color-blue-25);
 }
 
-/* Phone has no panel edge to dock a handle on, so the opt-out is a labelled
-   link on the subtitle row instead. Desktop and tablet keep the edge handle. */
-.agent-subrow {
+/* Reset and Exit sit under the footer as quiet links, the same closing row as
+   the right rail's "+ Add to Shortlist", so the two rails end alike. */
+.agent-links {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: var(--l-space-2);
+  margin-top: var(--l-space-1);
 }
 
-.agent-exit-inline {
-  display: none;
-  flex-shrink: 0;
-  margin-right: calc(var(--l-space-2) * -1);
-  padding: 2px var(--l-space-2);
-  background: none;
-  border: none;
-  border-radius: var(--l-radius-1);
-  color: var(--l-color-blue-100);
-  font-family: inherit;
+.agent-links .rail-sub {
   font-size: 12.5px;
-  font-weight: var(--l-font-weight-semibold);
-  white-space: nowrap;
-  cursor: pointer;
 }
 
-.agent-exit-inline:hover {
-  background: var(--l-color-blue-10);
+.agent-links-sep {
+  width: 1px;
+  height: 12px;
+  background: var(--l-color-darkblue-25, #c5cdd3);
 }
 
 /* Opted out of the agent: the page is the legacy experience, so everything the
@@ -3657,10 +3648,6 @@ body.is-resizing-panes {
 @media (max-width: 699px) {
   .agent-edge {
     display: none;
-  }
-
-  .agent-exit-inline {
-    display: inline-block;
   }
 }
 

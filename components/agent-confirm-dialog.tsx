@@ -2,19 +2,26 @@
 
 import { useEffect } from "react";
 
-type ExitAgentDialogProps = {
+type AgentConfirmDialogProps = {
   open: boolean;
-  /** Leave the agent and go back to the legacy (Thomas Classic) experience. */
+  title: string;
+  body: string;
+  confirmLabel: string;
+  stayLabel: string;
   onConfirm: () => void;
-  /** Stay in the agent. */
   onStay: () => void;
 };
 
-/**
- * Confirmation before opting out of the agent: it explains where the buyer
- * lands and that their answers are kept if they come back.
- */
-export function ExitAgentDialog({ open, onConfirm, onStay }: ExitAgentDialogProps) {
+/** Confirmation before an agent action that clears or abandons the buyer's work. */
+export function AgentConfirmDialog({
+  open,
+  title,
+  body,
+  confirmLabel,
+  stayLabel,
+  onConfirm,
+  onStay,
+}: AgentConfirmDialogProps) {
   useEffect(() => {
     if (!open) return;
     const onKey = (event: KeyboardEvent) => {
@@ -32,26 +39,25 @@ export function ExitAgentDialog({ open, onConfirm, onStay }: ExitAgentDialogProp
         className="gate-card"
         role="alertdialog"
         aria-modal="true"
-        aria-labelledby="exit-agent-title"
-        aria-describedby="exit-agent-sub"
+        aria-labelledby="agent-confirm-title"
+        aria-describedby="agent-confirm-sub"
         onClick={(event) => event.stopPropagation()}
       >
         <button type="button" className="gate-close" aria-label="Close" onClick={onStay}>
           <l-icon name="xmark" />
         </button>
-        <h2 id="exit-agent-title" className="gate-title deep-draw-title mar-0">
-          Exit the agent and go back to Thomas Classic?
+        <h2 id="agent-confirm-title" className="gate-title deep-draw-title mar-0">
+          {title}
         </h2>
-        <p id="exit-agent-sub" className="gate-sub mar-0">
-          You&apos;ll see the standard Thomas search results. Your answers are saved, so you can pick
-          up where you left off if you open the agent again.
+        <p id="agent-confirm-sub" className="gate-sub mar-0">
+          {body}
         </p>
         <div className="deep-draw-actions">
           <button kind="primary" onClick={onConfirm}>
-            Exit agent
+            {confirmLabel}
           </button>
           <button kind="neutral" onClick={onStay} autoFocus>
-            Stay
+            {stayLabel}
           </button>
         </div>
       </div>
