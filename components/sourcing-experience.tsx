@@ -925,7 +925,7 @@ export function SourcingExperience() {
                     blue links under the primary actions. */}
                 <div className="agent-links">
                   <button
-                    className="rail-sub"
+                    className="ask-skip-link"
                     type="button"
                     title="Reset your agent — clear your answers and start over"
                     onClick={() => setResetConfirmOpen(true)}

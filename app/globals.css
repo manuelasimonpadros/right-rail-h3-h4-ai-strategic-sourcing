@@ -3589,6 +3589,12 @@ body.is-resizing-panes {
   margin-bottom: var(--l-space-2);
 }
 
+/* Reset borrows Skip's quiet grey; the link is sized to the row, not Skip's 32px. */
+.agent-links .ask-skip-link {
+  height: auto;
+  padding: 6px var(--l-space-2);
+}
+
 .agent-links-sep {
   width: 1px;
   height: 12px;
