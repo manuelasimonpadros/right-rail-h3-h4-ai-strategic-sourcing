@@ -925,21 +925,21 @@ export function SourcingExperience() {
                     blue links under the primary actions. */}
                 <div className="agent-links">
                   <button
-                    className="rail-sub"
-                    type="button"
-                    title="Reset your agent — clear your answers and start over"
-                    onClick={() => setResetConfirmOpen(true)}
-                  >
-                    <l-icon name="arrow-rotate-left" aria-hidden="true" /> Reset
-                  </button>
-                  <span className="agent-links-sep" aria-hidden="true" />
-                  <button
                     className="ask-skip-link"
                     type="button"
                     title={`Exit agent — ${OPT_OUT_HINT}`}
                     onClick={() => setExitConfirmOpen(true)}
                   >
                     Exit agent
+                  </button>
+                  <span className="agent-links-sep" aria-hidden="true" />
+                  <button
+                    className="rail-sub"
+                    type="button"
+                    title="Reset your agent — clear your answers and start over"
+                    onClick={() => setResetConfirmOpen(true)}
+                  >
+                    <l-icon name="arrow-rotate-left" aria-hidden="true" /> Reset
                   </button>
                 </div>
               </div>
