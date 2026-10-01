@@ -228,7 +228,7 @@ p,
 }
 
 .agent-confirm .gate-title {
-  padding: 0 var(--l-space-5);
+  padding: 0 var(--l-space-6);
   font-size: var(--l-font-size-medium);
   font-weight: var(--l-font-weight-semibold);
   line-height: 1.3;
