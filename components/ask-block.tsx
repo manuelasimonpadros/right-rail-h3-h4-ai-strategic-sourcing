@@ -420,22 +420,29 @@ export function AskBlock({
           <small className="txt-darkblue-50">Free-form answer — skip to move on.</small>
         ))}
 
-      {/* Skip rides below the options — always on offer, like "Not Relevant". */}
-      {active && onSkip && (
-        <button type="button" className="ask-skip-row" onClick={onSkip}>
-          Skip →
-        </button>
-      )}
-
       {/* Multi-select questions settle from an explicit log button — picking
           rows only toggles them, so the buyer can choose more than one. */}
       {active && question.multi && options.length > 0 && (
         <div className="ask-submit">
           <small className="txt-darkblue-50">Select all that apply</small>
-          <button kind="primary" type="button" disabled={picked.length === 0} onClick={onSubmit}>
-            Submit
+          <button
+            kind="primary"
+            type="button"
+            className="ask-next"
+            disabled={picked.length === 0}
+            onClick={onSubmit}
+          >
+            Next
           </button>
         </div>
+      )}
+
+      {/* Skip is always a quiet, centred row at the foot of the question, so it
+          sits in the same place whether or not Next is above it. */}
+      {active && onSkip && (
+        <button type="button" className="ask-skip-link ask-skip-solo" onClick={onSkip}>
+          Skip
+        </button>
       )}
     </div>
   );
