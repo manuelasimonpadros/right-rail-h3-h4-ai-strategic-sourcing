@@ -3592,8 +3592,18 @@ body.is-resizing-panes {
 /* Exit agent matches Reset's size but a lighter weight, so the opt-out link
    doesn't out-shout the buttons above it. */
 .agent-links .rail-sub {
+  /* Inherit the page font like Reset does: a button's default font made the
+     two links render at visibly different sizes despite the same font-size. */
+  font-family: inherit;
   font-size: 12.5px;
   font-weight: 500;
+  padding: 6px var(--l-space-2);
+  border-radius: var(--l-radius-1);
+}
+
+.agent-links .rail-sub:hover {
+  text-decoration: none;
+  background: var(--l-color-blue-5, #f6f9ff);
 }
 
 /* Reset borrows Skip's quiet grey; the link is sized to the row, not Skip's 32px. */
