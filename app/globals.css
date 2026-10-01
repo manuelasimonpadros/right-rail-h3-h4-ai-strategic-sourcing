@@ -3589,7 +3589,7 @@ body.is-resizing-panes {
   margin-bottom: var(--l-space-2);
 }
 
-/* Exit agent matches Reset's size and weight (Skip's, too). */
+/* Reset (blue) and Exit agent (grey, like Skip) share one size and weight. */
 .agent-links .rail-sub {
   /* Inherit the page font like Reset does: a button's default font made the
      two links render at visibly different sizes despite the same font-size. */
@@ -3605,7 +3605,7 @@ body.is-resizing-panes {
   background: var(--l-color-blue-5, #f6f9ff);
 }
 
-/* Reset borrows Skip's quiet grey; the link is sized to the row, not Skip's 32px. */
+/* Exit agent borrows Skip's quiet grey; the link is sized to the row, not Skip's 32px. */
 .agent-links .ask-skip-link {
   height: auto;
   padding: 6px var(--l-space-2);
