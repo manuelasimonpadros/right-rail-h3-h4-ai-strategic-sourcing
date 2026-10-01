@@ -34,6 +34,9 @@ type SelectSuppliersRailProps = {
       floating "Open Smart Filters" button) — offered from the empty RFI
       card so there's a path back in without hunting for that button. */
   onAnswerQuestions?: () => void;
+  /** Set when the rail is shown as the phone/tablet sheet: adds a Close
+      control. */
+  onClose?: () => void;
 };
 
 /**
@@ -52,6 +55,7 @@ export function SelectSuppliersRail({
   addedCount,
   onClearRecommended,
   onAnswerQuestions,
+  onClose,
 }: SelectSuppliersRailProps) {
   const [rfiCollapsed, setRfiCollapsed] = useState(false);
   /** Saved suppliers a request can actually go to — the rest are shortlist only. */
@@ -106,7 +110,7 @@ export function SelectSuppliersRail({
           <l-icon name="paper-plane" />
         </span>
         <div>
-          <h4 className="mar-0">Shortlist &amp; contact suppliers</h4>
+          <h4 className="mar-0">Shortlist &amp; Contact Suppliers</h4>
           <p className="mar-0">
             {suppliers.length === 0
               ? "Add suppliers to your list"
@@ -117,6 +121,16 @@ export function SelectSuppliersRail({
                 )}
           </p>
         </div>
+        {onClose && (
+          <button
+            type="button"
+            className="rail-close"
+            aria-label="Close Shortlist & Contact Suppliers"
+            onClick={onClose}
+          >
+            <l-icon name="xmark" aria-hidden="true" />
+          </button>
+        )}
       </div>
 
       {suppliers.length === 0 ? (
@@ -222,13 +236,14 @@ export function SelectSuppliersRail({
         <button
           type="button"
           kind="primary"
+          scale={onClose ? "large" : undefined}
           disabled={contactable.length === 0}
           onClick={onSendRfi}
         >
           Contact {contactable.length} Supplier{contactable.length === 1 ? "" : "s"}
         </button>
         <button type="button" className="rail-sub" onClick={onAddToShortlist}>
-          + Add to shortlist
+          + Add to Shortlist
         </button>
       </div>
     </aside>

@@ -116,6 +116,55 @@ export function SourcingExperience() {
     scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" });
   }, [browseAsks]);
 
+  // Phone only: the header (logo + search) slides away while the results list
+  // scrolls down and returns on any scroll up, so the list gets the screen.
+  useEffect(() => {
+    const phone = window.matchMedia("(max-width: 699px)");
+    const nav = document.querySelector<HTMLElement>(".site-nav");
+    if (!nav) return;
+    let hidden = false;
+    let lastTop = 0;
+    let travel = 0;
+    let lockedUntil = 0;
+    const setHidden = (next: boolean) => {
+      if (next === hidden) return;
+      hidden = next;
+      nav.style.marginTop = next ? `${-nav.offsetHeight}px` : "";
+      lockedUntil = Date.now() + 400;
+      travel = 0;
+    };
+    const onScroll = (event: Event) => {
+      const target = event.target;
+      if (!phone.matches || !(target instanceof HTMLElement)) return;
+      if (!target.matches(".results-center > .pane-scroll")) return;
+      const top = target.scrollTop;
+      if (Date.now() < lockedUntil) {
+        lastTop = top;
+        return;
+      }
+      const delta = top - lastTop;
+      lastTop = top;
+      if (top < 24) return setHidden(false);
+      travel = Math.sign(delta) === Math.sign(travel) ? travel + delta : delta;
+      if (travel > 16) setHidden(true);
+      else if (travel < -16) setHidden(false);
+    };
+    const reveal = () => setHidden(false);
+    const onPhoneChange = () => {
+      if (!phone.matches) reveal();
+    };
+    document.addEventListener("scroll", onScroll, true);
+    nav.addEventListener("focusin", reveal);
+    phone.addEventListener("change", onPhoneChange);
+    return () => {
+      document.removeEventListener("scroll", onScroll, true);
+      nav.removeEventListener("focusin", reveal);
+      phone.removeEventListener("change", onPhoneChange);
+      nav.style.marginTop = "";
+    };
+    // Switching tabs re-runs this, which brings the header back.
+  }, [mobileTab]);
+
   const later = useCallback((ms: number, fn: () => void) => {
     timers.current.push(setTimeout(fn, ms));
   }, []);
@@ -710,7 +759,7 @@ export function SourcingExperience() {
                             "This need is quoted by Deep Drawing Services"
                           ) : (
                             <>
-                              Based on your inputs we&apos;ve matched you to{" "}
+                              Based on your requirements we&apos;ve matched you to{" "}
                               <span className="txt-blue-100">{entry.shortlist ?? 0}</span> suppliers.
                             </>
                           )}
@@ -718,7 +767,7 @@ export function SourcingExperience() {
                         <p className="mar-0 done-copy">
                           {entry.routed
                             ? entry.text
-                            : `You can restart your search any time or close the agent below.${
+                            : `You can restart your search any time, or review your matches below.${
                                 FREE_TEXT_ENABLED
                                   ? " You can also keep typing details like certifications, industry, or supplier location."
                                   : ""
@@ -728,8 +777,10 @@ export function SourcingExperience() {
                           <button kind="neutral" onClick={reset}>
                             <l-icon name="arrow-rotate-left" /> Restart search
                           </button>
-                          <button kind="primary" onClick={() => setAgentOpen(false)}>
-                            Close Smart Filters
+                          <button kind="primary" onClick={closeChat}>
+                            {entry.routed || !entry.shortlist
+                              ? "View matched suppliers"
+                              : `View ${entry.shortlist} matched supplier${entry.shortlist === 1 ? "" : "s"}`}
                           </button>
                         </div>
                       </div>
@@ -855,6 +906,7 @@ export function SourcingExperience() {
             onApplyFilterAnswer={applyFilterAnswer}
             onClearMappedAnswers={() => removeAnswers(syncableQuestionIds())}
             onRefine={openDefine}
+            agentOpen={agentOpen}
             runId={runId}
           />
         </section>

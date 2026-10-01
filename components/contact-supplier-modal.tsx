@@ -435,7 +435,10 @@ export function ContactSupplierModal({
                     }}
                   >
                     <label htmlFor="contact-quote-files">
-                      Drag &amp; drop or click to upload drawings and specs
+                      <span className="drop-copy-pointer">
+                        Drag &amp; drop or click to upload drawings and specs
+                      </span>
+                      <span className="drop-copy-touch">Tap to upload drawings and specs</span>
                     </label>
                     <input
                       id="contact-quote-files"

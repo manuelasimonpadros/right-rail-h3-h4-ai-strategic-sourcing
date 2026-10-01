@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState, type TouchEvent } from "react";
 import { ContactSupplierModal } from "@/components/contact-supplier-modal";
 import { FilterDrawer, type FilterGroup } from "@/components/filter-drawer";
 import { LoginScreen } from "@/components/login-screen";
@@ -80,8 +80,10 @@ type SupplierResultsProps = {
   /** Clears every questionnaire-backed drawer facet in one shot. */
   onClearMappedAnswers: () => void;
   /** Reports how many suppliers sit on the engage rail, for the stage bar. */
-  /** Engage tray's Refine control: reopens the define pane. */
+  /** Engage tray's Smart Filters control: reopens the define pane. */
   onRefine: () => void;
+  /** False once the buyer has exited the agent; the tray control then reads "Open agent". */
+  agentOpen: boolean;
   /** True once the run wraps up or the buyer clicks Done. */
   /** Increments on Reset so the rail can drop auto-queued chips. */
   runId: number;
@@ -99,6 +101,7 @@ export function SupplierResults({
   onApplyFilterAnswer,
   onClearMappedAnswers,
   onRefine,
+  agentOpen,
   runId,
 }: SupplierResultsProps) {
   const [page, setPage] = useState(1);
@@ -382,6 +385,107 @@ export function SupplierResults({
     setRailAdded((current) => [...current, supplier.id]);
   };
 
+  const contactableCount = contactableOnly(railSuppliers).length;
+
+  /** Tablet and phone: the shortlist lives in a bottom tray that slides open. */
+  const [trayOpen, setTrayOpen] = useState(false);
+  const trayRef = useRef<HTMLDivElement>(null);
+  const trayOpenRef = useRef(false);
+  const swipeStart = useRef<number | null>(null);
+  const swipedAt = useRef(0);
+  const trayHandleRef = useRef<HTMLButtonElement>(null);
+  /** Closing by the tray's own controls hands focus back to its handle; an
+      action that opens a dialog or jumps to a card has somewhere else to send it. */
+  const restoreFocus = useRef(false);
+
+  const closeTray = () => {
+    restoreFocus.current = true;
+    setTrayOpen(false);
+  };
+
+  useEffect(() => {
+    trayOpenRef.current = trayOpen;
+    if (!trayOpen) {
+      if (restoreFocus.current) trayHandleRef.current?.focus();
+      restoreFocus.current = false;
+      return;
+    }
+    trayRef.current?.querySelector<HTMLElement>(".rail-close")?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        restoreFocus.current = true;
+        setTrayOpen(false);
+        return;
+      }
+      // Keep Tab inside the open sheet, since the page behind is dimmed.
+      if (event.key !== "Tab" || !trayRef.current) return;
+      const focusable = [
+        ...trayRef.current.querySelectorAll<HTMLElement>(
+          "button:not([disabled]):not([tabindex='-1']), [href], input, [tabindex]:not([tabindex='-1'])",
+        ),
+      ];
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [trayOpen]);
+
+  // The closed tray's real height becomes the pane's bottom clearance, so the
+  // tray never covers the controls above it (it's taller on a phone than on a tablet).
+  useEffect(() => {
+    const tray = trayRef.current;
+    if (!tray) return;
+    const root = document.documentElement;
+    const measure = () => {
+      if (trayOpenRef.current) return;
+      root.style.setProperty("--tray-height", `${tray.offsetHeight}px`);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(tray);
+    return () => {
+      observer.disconnect();
+      root.style.removeProperty("--tray-height");
+    };
+  }, []);
+
+  // Closed, a swipe anywhere on the bar opens it. Open, only the handle and
+  // the sheet's header take a swipe down, so the list below can still scroll.
+  const onTraySwipeStart = (event: TouchEvent) => {
+    const onGrip = (event.target as Element).closest(".engage-tray-handle, .rail-header");
+    swipeStart.current = trayOpenRef.current && !onGrip ? null : event.touches[0].clientY;
+  };
+  const onTraySwipeEnd = (event: TouchEvent) => {
+    if (swipeStart.current === null) return;
+    const delta = event.changedTouches[0].clientY - swipeStart.current;
+    swipeStart.current = null;
+    if (Math.abs(delta) < 32) return;
+    swipedAt.current = Date.now();
+    if (delta > 0) restoreFocus.current = true;
+    setTrayOpen(delta < 0);
+  };
+  const toggleTray = () => {
+    // A swipe already moved the tray; the click that trails it shouldn't undo that.
+    if (Date.now() - swipedAt.current < 400) return;
+    if (trayOpenRef.current) restoreFocus.current = true;
+    setTrayOpen((open) => !open);
+  };
+  /** Rail actions that leave the tray behind (scroll to a card, open a dialog). */
+  const fromTray = (action: () => void) => () => {
+    setTrayOpen(false);
+    action();
+  };
+
   const revealSupplier = (supplierId: string) => {
     const index = results.findIndex((supplier) => supplier.id === supplierId);
     if (index < 0) return;
@@ -454,10 +558,10 @@ export function SupplierResults({
       <div className="results-header">
         <div className="results-meta">
           <div className="results-headline">
-            <h3 className="mar-0">Suppliers that match your spec</h3>
+            <h3 className="mar-0">Suppliers that match your requirements</h3>
             <p className="mar-0 txt-smaller txt-darkblue-75">
               <span className="txt-blue-100 font-semi">{matchTotal.toLocaleString()}</span>{" "}
-              verified suppliers match your query.
+              verified suppliers found.
             </p>
           </div>
           <button
@@ -577,46 +681,123 @@ export function SupplierResults({
         />
       </div>
 
-      {/* Tablet and phone: the engage rail collapses into a fixed bottom tray. */}
-      <div className="engage-tray">
-        <button type="button" className="engage-tray-refine" onClick={onRefine}>
-          <l-icon name="sparkles" fill aria-hidden="true" /> Refine
+      {/* Tablet and phone: the engage rail collapses into a bottom tray. Its
+          handle (tap or swipe up) opens the full shortlist as a sheet. */}
+      <div
+        ref={trayRef}
+        className={`engage-tray${trayOpen ? " is-open" : ""}`}
+        onTouchStart={onTraySwipeStart}
+        onTouchEnd={onTraySwipeEnd}
+      >
+        {trayOpen && (
+          <button
+            type="button"
+            className="engage-tray-scrim"
+            tabIndex={-1}
+            aria-label="Close Shortlist & Contact Suppliers"
+            onClick={closeTray}
+          />
+        )}
+        <button
+          ref={trayHandleRef}
+          type="button"
+          className="engage-tray-handle"
+          aria-expanded={trayOpen}
+          aria-controls="engage-tray-sheet"
+          aria-label={
+            trayOpen
+              ? "Close Shortlist & Contact Suppliers"
+              : "Open Shortlist & Contact Suppliers"
+          }
+          onClick={toggleTray}
+        >
+          <span aria-hidden="true" />
         </button>
-        {/* Marks and their count share one cell, so the count sits against the
-            logos instead of being pushed out by the button column below. */}
-        <span className="engage-tray-picks">
-          {railSuppliers.length > 0 && (
-            <span className="engage-tray-avatars" aria-hidden="true">
-              {railSuppliers.slice(0, 3).map((supplier) => (
-                <span key={supplier.id}>
-                  <SupplierLogo name={supplier.name} size={26} />
+        {trayOpen ? (
+          <div
+            id="engage-tray-sheet"
+            className="engage-tray-sheet"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Shortlist & Contact Suppliers"
+          >
+            <SelectSuppliersRail
+              onClose={closeTray}
+              suppliers={railSuppliers}
+              onRemove={removeFromRail}
+              onReveal={(supplierId) => {
+                setTrayOpen(false);
+                revealSupplier(supplierId);
+              }}
+              onAddToShortlist={fromTray(shortlistRailSuppliers)}
+              onSendRfi={fromTray(openRailRfi)}
+              draftTitle={draftTitle}
+              requirementCount={logged.length}
+              requirementPreview={requirements}
+              addedCount={added.length}
+              onClearRecommended={clearRecommended}
+              onAnswerQuestions={fromTray(onRefine)}
+            />
+          </div>
+        ) : (
+          <div className="engage-tray-bar">
+            <button
+              type="button"
+              className="engage-tray-refine"
+              aria-label={agentOpen ? "Smart Filters" : "Open agent"}
+              onClick={onRefine}
+            >
+              <l-icon name="sparkles" fill aria-hidden="true" />
+              <span className="engage-tray-refine-label">{agentOpen ? "Smart Filters" : "Open agent"}</span>
+            </button>
+            {/* Marks and their count share one cell, so the count sits against the
+                logos instead of being pushed out by the button column below. */}
+            <span className="engage-tray-picks">
+              {railSuppliers.length > 0 && (
+                <span className="engage-tray-avatars" aria-hidden="true">
+                  {/* Four or fewer show in full: a "+1" chip would take the room
+                      of the logo it replaces. */}
+                  {railSuppliers.slice(0, railSuppliers.length > 4 ? 3 : 4).map((supplier) => (
+                    <span key={supplier.id}>
+                      <SupplierLogo name={supplier.name} size={26} />
+                    </span>
+                  ))}
+                  {railSuppliers.length > 4 && (
+                    <span className="engage-tray-more">+{railSuppliers.length - 3}</span>
+                  )}
                 </span>
-              ))}
+              )}
+              <span className="engage-tray-note">
+                {railSuppliers.length === 0
+                  ? "Add suppliers to contact or shortlist"
+                  : contactableCount < railSuppliers.length
+                    ? `${railSuppliers.length} selected · ${contactableCount} contactable`
+                    : `${railSuppliers.length} supplier${railSuppliers.length === 1 ? "" : "s"} selected`}
+              </span>
             </span>
-          )}
-          <span className="engage-tray-note">
-            {railSuppliers.length} supplier{railSuppliers.length === 1 ? "" : "s"} to engage
-          </span>
-        </span>
-        <button
-          kind="neutral"
-          scale="small"
-          type="button"
-          className="engage-tray-shortlist"
-          disabled={railSuppliers.length === 0}
-          onClick={shortlistRailSuppliers}
-        >
-          Shortlist
-        </button>
-        <button
-          kind="primary"
-          scale="small"
-          type="button"
-          disabled={contactableOnly(railSuppliers).length === 0}
-          onClick={openRailRfi}
-        >
-          Send RFI
-        </button>
+            <button
+              kind="neutral"
+              scale="small"
+              type="button"
+              className="engage-tray-shortlist"
+              disabled={railSuppliers.length === 0}
+              onClick={shortlistRailSuppliers}
+            >
+              <span>
+                <span className="engage-tray-shortlist-verb">Add to </span>Shortlist
+              </span>
+            </button>
+            <button
+              kind="primary"
+              scale="small"
+              type="button"
+              disabled={contactableCount === 0}
+              onClick={openRailRfi}
+            >
+              Contact {contactableCount} Supplier{contactableCount === 1 ? "" : "s"}
+            </button>
+          </div>
+        )}
       </div>
 
       <RegisterGate
